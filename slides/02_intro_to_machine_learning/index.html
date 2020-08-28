@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introduction to Machine Learning</title>
+    <meta charset="utf-8">
+    <style>
+     .left-column {
+       width: 50%;
+       float: left;
+     }
+     .right-column {
+       width: 50%;
+       float: right;
+     }
+     .grey { color: #bbbbbb; }
+      
+     .footnote {
+        position: absolute;
+        bottom: 3em;
+        margin: 0em 2em;
+      }
+
+     .red {
+       color: red;
+      }
+
+     .tiny { font-size: 0.75em; }
+     .super-tiny { font-size: 0.70em; }
+
+.pull-left {
+    float: left;
+    width: 45%;
+}
+
+.pull-right {
+    float: right;
+    width: 45%;
+}
+      </style>
+    <link rel="stylesheet" type="text/css" href="slides.css">
+  </head>
+  <body>
+      <textarea id="source">
+class: center, middle
+
+# Introduction to Machine Learning
+
+Mathieu Blondel
+
+.affiliations[
+Google Research, Brain team
+]
+.footnote.tiny[Credits: many contents and figures are borrowed from the scikit-learn [mooc](https://github.com/inria/scikit-learn-mooc/) and scipy
+[lecture notes](https://scipy-lectures.org/packages/scikit-learn/index.html).]
+---
+# Scope of this lecture
+
+- A one-hour and a half long tutorial for absolute beginners in machine learning
+- High-level concepts with almost zero maths
+
+--
+
+What will be covered later this week but not today:
+- Model-specific explanations (linear models, trees, neural networks)
+- scikit-learn
+- Optimization
+- Deep learning
+
+---
+# Outline
+
+- Supervised learning
+ - Classification
+ - Regression
+ - Generalization
+
+- Model selection
+ - Model complexity
+ - Overfitting
+ - Bias / variance trade-off
+
+---
+class: center, middle
+
+# Supervised learning
+---
+# Supervised learning
+
+- Learning from examples (inductive learning)
+
+- Training phase
+
+.center[<img src="figures/training-phase.png" width="85%" />]
+
+- Inference (prediction) phase
+
+.center[<img src="figures/inference-phase.png" width="85%" />]
+
+---
+# Classification
+
+- Given an input, predict the class (category) it belongs to 
+
+- Examples
+  - Given the picture of an astronomical object, determine whether it is a star, a galaxy, etc.
+  - Given the picture of a person, identify the person
+  - Given an email, detect whether it is a spam or not
+  - Given the spectogram of a spoken word, recognize the command being spoken
+---
+# Regression
+
+- Given an input, predict a real (continuous) variable associated with it
+
+- Examples
+ - Given the profile of a person, predict his/her salary
+ - Given the characteristics of a house, predict its price
+ - Given a patient's DNA information, predict his/her life expectancy
+---
+# The iris dataset
+
+- A famous dataset in statistics and machine learning
+.center[
+<table>
+  <tr>
+    <td style="border-width: 0px">
+      <img src="iris_setosa.jpg" style="width: 200px;" />
+      <br />Setosa
+    </td>
+    <td style="border-width: 0px">
+      <img src="iris_versicolor.jpg" style="width: 200px;" />
+      <br />Versicolor
+    </td>
+    <td style="border-width: 0px">
+      <img src="iris_virginica.jpg" style="width: 200px;" />
+      <br />Viriginica
+    </td>
+  </tr>
+</table>
+]
+
+.small[
+| Sepal length | Sepal width | Petal length | Petal width | | Iris type  |
+| ------------ | ----------- | ------------ | ----------- |-| ---------- |
+| 6cm          | 3.4cm       | 4.5cm        | 1.6cm       | | versicolor |
+| 5.7cm        | 3.8cm       | 1.7cm        | 0.3cm       | | setosa     |
+| 6.5cm        | 3.2cm       | 5.1cm        | 2cm         | | virginica  |
+| 5cm          | 3.cm        | 1.6cm        | 0.2cm       | | setosa     |
+]
+---
+# Data matrix and target vector
+
+$$
+\mathbf{X} =
+\begin{bmatrix}
+\mathbf{x}_1 \\\\
+\mathbf{x}_2 \\\\
+\mathbf{x}_3 \\\\
+\mathbf{x}_4 \\\\
+\vdots 
+\end{bmatrix}
+=
+\begin{bmatrix}
+6 & 3.4 & 4.5 & 1.6 \\\\
+5.7 & 3.8 & 1.7 & 0.3 \\\\
+6.5 & 3.2 & 5.1 & 2 \\\\
+5 & 3 & 1.6 & 0.2 \\\\
+\vdots & \vdots & \vdots & \vdots
+\end{bmatrix}
+\quad
+\mathbf{y}
+=
+\begin{bmatrix}
+y_1 \\\\
+y_2 \\\\
+y_3 \\\\
+y_4 \\\\
+\vdots
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \\\\
+0 \\\\
+2 \\\\
+0 \\\\
+\vdots
+\end{bmatrix}
+$$
+
+$\mathbf{X}$ is called the data matrix and consists of $n$ samples (observations) with $d$ features (attributes)
+
+$\mathbf{x}_i$ is called a feature vector
+
+$\mathbf{y}$ is called the target or label vector
+
+$y_i$ is called a target or label
+---
+# Samples as points in a space
+
+.center[
+    <img src="sphx_glr_plot_iris_scatter_001.png" style="width: 500px;" />
+]
+Samples from the iris datasets live in a 4-dimensional space, 
+we only use 2 dimensions for visualization purposes.
+---
+# Inferring rules from data
+
+<table>
+<thead><tr>
+	<th>Sepal length</th>
+	<th>Sepal width</th>
+	<th>Petal length</th>
+	<th>Petal width</th>
+</tr></thead>
+<tbody><tr>
+    <td>
+    <img src="figures/iris_sepal_length_cm_hist.svg" style="width: 100%;">
+    </td>
+    <td>
+    <img src="figures/iris_sepal_width_cm_hist.svg" style="width: 100%;">
+    </td>
+    <td>
+    <img src="figures/iris_petal_length_cm_hist.svg" style="width: 100%;">
+    </td>
+    <td>
+    <img src="figures/iris_petal_width_cm_hist.svg" style="width: 100%;">
+    </td>
+    </tr></tbody>
+</table>
+<img src="figures/legend_irises.svg" style='float: left;'>
+
+<br/><br/>We can *infer* from the data that setosa irises have small petals.
+
+Learning algorithms automate this process!
+---
+# Learning a model from examples
+
+- A model can be seen as a function $f$ that maps a feature vector $\mathbf{x}$ (input) to a target $y$ (output).
+
+- Given input-output pairs (training samples) $(\mathbf{x}_1, y_1)$, $(\mathbf{x}_2, y_2)$,
+..., $(\mathbf{x}_n, y_n)$, we want to find a $f$ such that
+
+$$
+f(\mathbf{x}_i) \approx y_i
+$$
+
+---
+# Example: the nearest neighbor model
+
+The model $f(\mathbf{x})$ searches for the example $\mathbf{x}_i$ with smallest distance
+$d(\mathbf{x}, \mathbf{x}_i)$ and returns the label associated with this example.
+
+.center[<img src="sphx_glr_plot_iris_knn_001.png" width="65%"/>]
+
+---
+# US Census data
+
+.super-tiny[
+
+| Age | Workclass | Education    | Marital-status     | Occupation         | Relationship | Race  | Sex  | Capital-gain | Hours-per-week | Native-country | Class |
+| --- | --------- | ------------ | ------------------ | ------------------ | ------------ | ----- | ---- | ------------ | -------------- | -------------- | ----- |
+| 25  | Private   | 11th         | Never-married      | Machine-op-inspct  | Own-child    | Black | Male | 0            | 40             | United-States  | <=50K |
+| 38  | Private   | HS-grad      | Married-civ-spouse | Farming-fishing    | Husband     | White  | Male | 0            | 50             | United-States   | <=50K |
+| 28  | Local-gov | Assoc-acdm   | Married-civ-spouse | Protective-serv    | Husband      | White | Male | 0            | 40             | United-States   | >50K  |
+| 44  | Private   | Some-college | Married-civ-spouse | Machine-op-inspct  | Husband      | Black | Male | 7688         | 40             | United-States   | >50K  |
+
+]
+
+Does this person make more than 50K per year?
+---
+# Generalizing
+
+- In machine learning, we want to predict on new data instances 
+- In the census example, we want to predict the income of new
+individuals, with a combination of jobs and demographics that we have
+never seen
+- Many sources of variability: age workclass, education, marital-status,
+occupation, ...
+
+*+* Noise: unexplainable variance
+
+---
+# Memorizing
+
+* Store all known individuals (the census)
+* Given a new individual, predict the income of its closest match in our database
+
+This is known as the nearest neighbor predictor.
+
+Trying out this strategy on the data we have, the census, *what error
+rate do we expect?*
+
+--
+
+> **0 errors**
+
+--
+
+.red[Yet, we will make errors on **new** data]
+
+---
+# Generalizing &nbsp;≠&nbsp; Memorizing
+
+.center["test" data &nbsp;≠&nbsp; "train" data]
+
+.pull-left[Data on which the predictive model is applied]
+
+.pull-right[Data used to learn the predictive model]
+
+&nbsp;   
+&nbsp;   
+
+* Different sampling of noise
+* Unobserved combination of features
+---
+class: center, middle
+
+# Model selection 
+---
+# Model complexity
+
+- There exists a wealth a machine learning models, some more complex and expressive
+than others.
+- What are the implications of model complexity?
+- How do we pick one model rather than another?
+
+.center[
+<table>
+  <tr>
+    <td style="border-width: 0px">
+      <img src="sphx_glr_plot_svm_non_linear_001.png" style="width: 400px;" />
+      <br/> Linear
+    </td>
+    <td style="border-width: 0px; padding: 0px">
+      <img src="sphx_glr_plot_svm_non_linear_002.png" style="width: 400px;" />
+      <br />Non-linear
+    </td>
+  </tr>
+</table>
+]
+---
+## Varying the degree of a polynomial
+
+.center[<img src="figures/polynomial_overfit_0.svg" width=75%>]
+
+.footnote.tiny[Reminder: a univariate polynomial of degree $D$ is given by
+$f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
+---
+## Varying the degree of a polynomial
+
+.center[<img src="figures/polynomial_overfit_1.svg" width=75%>]
+
+.footnote.tiny[Reminder: a univariate polynomial of degree $D$ is given by
+$f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
+---
+## Varying the degree of a polynomial
+
+.center[<img src="figures/polynomial_overfit_2.svg" width=75%>]
+
+.footnote.tiny[Reminder: a univariate polynomial of degree $D$ is given by
+$f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
+---
+## Varying the degree of a polynomial
+
+.center[<img src="figures/polynomial_overfit_5.svg" width=75%>]
+
+.footnote.tiny[Reminder: a univariate polynomial of degree $D$ is given by
+$f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
+---
+## Varying the degree of a polynomial
+
+.center[<img src="figures/polynomial_overfit_9.svg" width=75%>]
+
+.footnote.tiny[Reminder: a univariate polynomial of degree $D$ is given by
+$f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
+---
+## Varying the degree of a polynomial
+
+.center[<img src="figures/polynomial_overfit.svg" width=75%>]
+
+.footnote.tiny[Reminder: a univariate polynomial of degree $D$ is given by
+$f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
+---
+# Which model do you prefer?
+
+.pull-left[<img src="figures/linear_ols.svg" width="110%">]
+
+.pull-right[<img src="figures/linear_splines.svg" width="110%">]
+---
+# Which model do you prefer? (new data)
+
+.pull-left[<img src="figures/linear_ols_test.svg" width="110%">]
+.pull-right[<img src="figures/linear_splines_test.svg" width="110%">]
+
+---
+# Bias / Variance trade-off
+
+.center[
+    <img src="sphx_glr_plot_bias_variance_001.png" style="width: 800px;" />
+]
+
+- High bias: the model is too simple / constrained (underfit)
+- High variance: the model is too expressive / flexible (overfit)
+- Need to find a good trade-off
+---
+# Underfit versus overfit
+
+.center[
+<table>
+  <tr>
+    <td style="border-width: 0px">
+<img src="figures/target_bias.svg" width="80%">
+      <br/> High bias
+    </td>
+    <td style="border-width: 0px; padding: 0px">
+<img src="figures/target_variance.svg" width="80%">
+      <br />High variance
+    </td>
+  </tr>
+</table>
+]
+---
+# Train vs. test error
+
+- Train set error: how well did the learning algorithm tune the model parameters
+
+- Test set error: how well does the model generalize to new data
+---
+# Train vs test error: effect of model complexity
+
+.pull-left[<img src="figures/polynomial_overfit_test_1.svg" width=110%>]
+.pull-right[<img src="figures/polynomial_validation_curve_1.svg"
+		width="100%">]
+---
+# Train vs test error: effect of model complexity
+
+.pull-left[<img src="figures/polynomial_overfit_test_2.svg" width=110%>]
+.pull-right[<img src="figures/polynomial_validation_curve_2.svg"
+		width="100%">]
+---
+# Train vs test error: effect of model complexity
+
+.pull-left[<img src="figures/polynomial_overfit_test_5.svg" width=110%>]
+.pull-right[<img src="figures/polynomial_validation_curve_5.svg"
+		width="100%">]
+---
+# Train vs test error: effect of model complexity
+
+.pull-left[<img src="figures/polynomial_overfit_test_9.svg" width=110%>]
+.pull-right[<img src="figures/polynomial_validation_curve_15.svg"
+		width="100%">]
+---
+# Train vs test error: effect of sample size
+
+.pull-left[<img
+		       src="figures/polynomial_overfit_ntrain_42.svg"
+		       width=110%>]
+.pull-right[<img
+		     src="figures/polynomial_learning_curve_42.svg"
+		     width="100%">]
+---
+# Train vs test error: effect of sample size
+
+.pull-left[<img
+		       src="figures/polynomial_overfit_ntrain_145.svg"
+		       width=110%>]
+.pull-right[<img
+		     src="figures/polynomial_learning_curve_145.svg"
+		     width="100%">]
+---
+# Train vs test error: effect of sample size
+
+.pull-left[<img
+		       src="figures/polynomial_overfit_ntrain_1179.svg"
+		       width=110%>]
+.pull-right[<img
+		     src="figures/polynomial_learning_curve_1179.svg"
+		     width="100%">]
+---
+# Train vs test error: effect of sample size
+
+.center[
+<table>
+  <tr>
+    <td style="border-width: 0px">
+<img src="figures/polynomial_overfit_ntrain_6766.svg" width=80%>
+    </td>
+    <td style="border-width: 0px; padding: 0px">
+<img src="figures/polynomial_learning_curve_6766.svg" width="100%">
+    </td>
+  </tr>
+</table>
+]
+
+.center[Diminishing returns phenomenon]
+---
+# Bayes rate: no improvement possible
+
+.center[<img src="figures/polynomial_overfit_ntrain_6766.svg" width=50%>]
+
+- Here, the data-generating process is a degree-9 polynomial 
+- We cannot do better even if we make the model more complex
+- Predictions are limited by noise
+---
+# Test vs. validation error
+
+- Hyper-parameters: parameters that are not directly tuned by the learning algorithm
+- Typically controls complexity (e.g. the degree parameter)
+- Test data should never be used for choosing hyper-parameters
+- Use validation data instead (aka held-out data)
+
+.center[
+    <img src="sphx_glr_plot_bias_variance_003.png" style="width: 500px;" />
+]
+---
+# Take home messages
+
+* Machine learning is about extracting from *data* rules that *generalize*
+  to new observations
+
+* We work with a data matrix $\mathbf{X}$ and target vector $\mathbf{y}$
+
+    </textarea>
+    <style TYPE="text/css">
+      code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}
+    </style>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+      tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] // removed 'code' entry
+      }
+      });
+      MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i = 0; i < all.length; i += 1) {
+		     all[i].SourceElement().parentNode.className += ' has-jax';
+		     }
+		     });
+		     </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../remark.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+        highlightStyle: 'github',
+        highlightSpans: true,
+        highlightLines: true
+      });
+    </script>
+  </body>
+</html>
