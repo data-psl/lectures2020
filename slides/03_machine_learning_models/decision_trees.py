@@ -4,6 +4,7 @@ from sklearn.datasets import load_iris
 
 
 s=20
+
 X, y = load_iris(return_X_y=True)
 X = X[:, [2, 3]]
 

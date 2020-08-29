@@ -504,7 +504,7 @@ The other points can be classified as "Virginica": we have built a set of rules 
 
 
 ---
-# Why trees?
+# Why is it called trees?
 
 
 
@@ -518,6 +518,252 @@ The other points can be classified as "Virginica": we have built a set of rules 
 
 
 
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees
+
+.center[
+<img src="images/trees.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 1
+.center[
+<img src="images/trees_1.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 2
+.center[
+<img src="images/trees_2.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 3
+.center[
+<img src="images/trees_3.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 4
+.center[
+<img src="images/trees_4.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 5
+.center[
+<img src="images/trees_5.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 6
+.center[
+<img src="images/trees_6.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 7
+.center[
+<img src="images/trees_7.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 8
+.center[
+<img src="images/trees_8.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 9
+.center[
+<img src="images/trees_9.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Problem with single trees
+
+Fitting complicated datasets might require **very** deep trees:
+
+depth = 10  **overfit**
+.center[
+<img src="images/trees_10.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Solution: grow a forest !
+
+Idea:
+
+- Instead of 1, grow multiple trees on random subsets of the data
+- To make prediction, each tree makes a prediction, and choose the most common answer (i.e. vote)
+
+--
+.center[
+<img src="images/forest_picture.png" style="width: 800px;" />
+<br/>
+]
+
+
+
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 1
+.center[
+<img src="images/trees_11.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 2
+.center[
+<img src="images/trees_12.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 3
+.center[
+<img src="images/trees_13.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 4
+.center[
+<img src="images/trees_14.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 5
+.center[
+<img src="images/trees_15.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 6
+.center[
+<img src="images/trees_16.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 7
+.center[
+<img src="images/trees_17.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 8
+.center[
+<img src="images/trees_18.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 9
+.center[
+<img src="images/trees_19.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Random Forest:
+
+Using 100 trees
+
+depth = 10
+.center[
+<img src="images/trees_20.png" style="width: 450px;" />
+<br/>
+]
 
 
 
