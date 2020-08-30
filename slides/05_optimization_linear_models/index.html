@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introduction to Machine Learning</title>
+    <meta charset="utf-8">
+    <style>
+     .left-column {
+       width: 50%;
+       float: left;
+     }
+     .right-column {
+       width: 50%;
+       float: right;
+     }
+     .grey { color: #bbbbbb; }
+      
+     .footnote {
+        position: absolute;
+        bottom: 3em;
+        margin: 0em 2em;
+      }
+
+     .red {
+       color: red;
+      }
+
+     .tiny { font-size: 0.75em; }
+     .super-tiny { font-size: 0.70em; }
+
+.pull-left {
+    float: left;
+    width: 45%;
+}
+
+.pull-right {
+    float: right;
+    width: 45%;
+}
+      </style>
+    <link rel="stylesheet" type="text/css" href="slides.css">
+  </head>
+  <body>
+      <textarea id="source">
+class: center, middle
+
+# Optimization of linear models
+
+Mathieu Blondel
+
+.affiliations[
+Google Research, Brain team
+]
+
+.footnote.tiny[Credits: some figures are borrowed from the scikit-learn [mooc](https://github.com/inria/scikit-learn-mooc/).
+]
+---
+# Goals of this lecture
+
+- Understand how to formulate the objective function of a linear regression 
+
+- Derive the closed form formula in the case of ridge regression
+
+- Understand how to formulate the objective function of logistic regression
+---
+class: center, middle
+
+# Ridge regression
+---
+# Recap on linear models
+
+- A prediction model is a function $f$ that maps a feature vector $\mathbf{x} \in \mathbb{R}^d$ to a target $y \in \mathbb{R}$.
+
+- Linear model without bias term
+$$
+f(\mathbf{x}) = \sum_{i=1}^d w_i x_i = \mathbf{w}^\top \mathbf{x}
+= w\_1 x\_1 + \dots + w\_d x\_d
+$$
+
+- Linear model with bias term
+$$
+f(\mathbf{x}) = w\_0 + \mathbf{w}^\top \mathbf{x}
+= w\_0 + w\_1 x\_1 + \dots + w\_d x\_d
+$$
+
+---
+# An example: Adult census
+
+.super-tiny[
+
+| Age | Workclass | Education    | Marital-status     | Occupation         | Relationship | Race  | Sex  | Capital-gain | Hours-per-week | Native-country | Salary |
+| --- | --------- | ------------ | ------------------ | ------------------ | ------------ | ----- | ---- | ------------ | -------------- | -------------- | ----- |
+| 25  | Private   | 11th         | Never-married      | Machine-op-inspct  | Own-child    | Black | Male | 0            | 40             | United-States  | $45k |
+| 38  | Private   | HS-grad      | Married-civ-spouse | Farming-fishing    | Husband     | White  | Male | 0            | 50             | United-States   | $40k |
+| 28  | Local-gov | Assoc-acdm   | Married-civ-spouse | Protective-serv    | Husband      | White | Male | 0            | 40             | United-States   | $60k  |
+]
+
+<br/><br/>
+Salary = 0.4 x Education + 0.2 x Hours-per-week + 0.1 x Age + ...
+
+Features are also commonly called explanatory variables.
+---
+# Linear regression $(d=1)$
+
+.center[
+<img src="../02_intro_to_machine_learning/figures/linear_data.svg" width="50%">
+]
+
+Predict the value of the target $y$ given some feature vector $\mathbf{x}$.
+---
+# Linear regression $(d=1)$
+
+.center[
+<img src="../02_intro_to_machine_learning/figures/linear_fit.svg" width="50%">
+]
+
+$$
+f(x) = w_1 x + w_0
+$$
+
+- $w_1$: the slope (coefficient directeur, pente)
+- $w_0$: the intercept (ordonnée à l'origine)
+
+---
+## Prediction errors
+
+.center[
+<table>
+  <tr>
+    <td style="border: 0px">
+<img src="../02_intro_to_machine_learning/figures/linear_fit_red.svg" width="80%">
+    </td>
+    <td style="border: 0px">
+<img src="../02_intro_to_machine_learning/figures/lin_reg_3D.svg" width="75%">
+    </td>
+  </tr>
+</table>
+]
+
+- Residuals
+$$
+y_i - f(\mathbf{x}_i) = y_i - \mathbf{w}^\top x_i 
+\quad \text{for all } i \in \{1, \dots, n\}
+$$
+
+- Squared errors
+$$
+\frac{1}{2} (y_i - f(\mathbf{x}_i))^2 = 
+\frac{1}{2} (y_i - \mathbf{w}^\top x_i)^2
+\quad \text{for all } i \in \{1, \dots, n\}
+$$
+---
+## Formulating an objective function
+
+.center[
+<table>
+  <tr>
+    <td style="border: 0px">
+<img src="../02_intro_to_machine_learning/figures/linear_fit_red.svg" width="80%">
+    </td>
+    <td style="border: 0px">
+<img src="../02_intro_to_machine_learning/figures/lin_reg_3D.svg" width="75%">
+    </td>
+  </tr>
+</table>
+]
+
+- Find $\mathbf{w}$ so as to minimize the sum of squared errors ("least squares")
+.small[
+$$
+\frac{1}{2} (y\_1 - \mathbf{w}^\top \mathbf{x}\_1)^2 + \dots + \frac{1}{2} (y\_n - \mathbf{w}^\top \mathbf{x}\_n)^2
+= \frac{1}{2} \sum\_{i=1}^n (y\_i - \mathbf{w}^\top \mathbf{x}\_i)^2
+$$
+]
+
+- Or in matrix notation: $\frac{1}{2} ||\mathbf{y} - \mathbf{X} \mathbf{w}||^2$
+---
+# Regularization
+
+- If the weights $w_j$ have too large magnitude $|w_j|$, the model could do poorly on new data
+
+- Add a penalty term $\sum\_{j=1}^d w_j^2 = ||\mathbf{w}||^2$ that will promote solutions with lower magnitude
+
+- Penalized objective (ridge regression)
+
+$$
+\frac{1}{2} ||\mathbf{y} - \mathbf{X} \mathbf{w}||^2 + \frac{\alpha}{2} ||\mathbf{w}||^2
+$$
+
+- Analytical solution (left as an exercise)
+
+$$
+\mathbf{w}^\star = (\mathbf{X}^\top \mathbf{X} + \alpha \mathbf{I})^{-1} \mathbf{X}^\top \mathbf{y}
+$$
+---
+class: center, middle
+
+# Logistic regression
+---
+# Binary classification
+
+.center[
+<img src="../02_intro_to_machine_learning/figures/categorical.svg" width="50%" />
+]
+
+For binary classification (i.e., with only two classes), $y$ can only take two values: $1$ (positive) or $0$ (negative)
+---
+# Sigmoid function
+
+- The linear model $f(\mathbf{x}) = \mathbf{w}^\top \mathbf{x}$ is not taking
+advantage of the fact that the target $y$ can only take two possible values
+($1$ or $0$).
+
+- The sigmoid function $\sigma(u) = \frac{1}{1 + e^{-u}}$ maps $\mathbb{R}$ to $[0,1]$
+
+.center[
+ <img src="../02_intro_to_machine_learning/figures/logistic_curve.png" width="50%" />
+ ]
+---
+# Logistic regression
+
+- Maps the linear model's prediction to $[0,1]$ using the sigmoid function
+$$
+g(\mathbf{x}) =
+\sigma(f(\mathbf{x})) 
+= \sigma(\mathbf{w}^\top \mathbf{x})
+= \frac{1}{1 + e^{-\mathbf{w}^\top \mathbf{x}}}
+$$
+
+<br/><br/>
+.center[
+<img src="../02_intro_to_machine_learning/figures/logistic_color.svg" width="50%">
+]
+---
+# Likelihood of one sample
+
+- $g(\mathbf{x}) = \sigma(f(\mathbf{x}))$ can be interpreted as the probability that $y=1$
+is the target associated with $\mathbf{x}$
+
+- $1 - g(\mathbf{x})$ can be interpreted as the probability that $y=0$ is the target
+
+- If $y$ is the correct target, the likelihood of our model for $\mathbf{x}$ is
+$$
+g(\mathbf{x}) 1\_{[y = 1]} \times (1- g(\mathbf{x})) 1\_{[y = 0]}
+= g(\mathbf{x})^y (1-g(\mathbf{x}))^{1 - y}
+$$
+where $1\_{[condition]}$ equals $1$ if condition is True, $0$ otherwise.
+---
+# Likelihood of the entire data
+
+- The likelihood of $(\mathbf{x}\_1, y\_1)$, ..., $(\mathbf{x}\_n, y\_n)$ for the model is
+.small[
+$$
+\begin{aligned}
+&\prod_{i=1}^n 
+g(\mathbf{x}\_i)^{y\_i} (1-g(\mathbf{x}\_i))^{1 - y\_i} \\\\
+= 
+&g(\mathbf{x}\_1)^{y\_1} (1-g(\mathbf{x}\_1))^{1 - y\_1}
+\dots
+g(\mathbf{x}\_n)^{y\_n} (1-g(\mathbf{x}\_n))^{1 - y\_n}
+\end{aligned}
+$$
+]
+
+- The log-likelihood is
+.tiny[
+$$
+\begin{aligned}
+&\sum_{i=1}^n 
+y\_i \log g(\mathbf{x}\_i) + (1-y\_i) \log (1-g(\mathbf{x}\_i)) \\\\
+= & y\_1 \log g(\mathbf{x}\_1) + (1-y\_1) \log (1-g(\mathbf{x}\_1)) + \dots +
+y\_n \log g(\mathbf{x}\_n) + (1-y\_n) \log (1-g(\mathbf{x}\_n)) 
+\end{aligned}
+$$
+]
+
+---
+# Objective function
+
+- Maximize with respect to $\mathbf{w}$ the log-likelihood
+.small[
+$$
+\sum_{i=1}^n 
+y\_i \log g(\mathbf{x}\_i) + (1-y\_i) \log (1-g(\mathbf{x}\_i))
+$$
+]
+
+- Or equivalently minimize the negative likelihood
+.small[
+$$
+-\sum_{i=1}^n 
+y\_i \log g(\mathbf{x}\_i) + (1-y\_i) \log (1-g(\mathbf{x}\_i))
+$$
+]
+
+- Add a regularization term 
+.small[
+$$
+-\sum_{i=1}^n 
+y\_i \log g(\mathbf{x}\_i) + (1-y\_i) \log (1-g(\mathbf{x}\_i)) + \frac{\alpha}{2} ||\mathbf{w}||^2
+$$
+]
+---
+# Solving the objective function
+
+- The optimal solution no longer enjoys a closed form solution (unlike ridge regression)
+
+- Nonetheless, the objective function is convex and 
+can be solved to optimality using gradient-based optimization
+
+- Topic of the next lecture!
+
+---
+# Not all data are linearly separable
+
+.pull-left[<img src="../02_intro_to_machine_learning/figures/lin_separable.svg" width="100%">]
+.pull-right[<img src="../02_intro_to_machine_learning/figures/lin_not_separable.svg" width="100%">]
+
+.pull-left.shift-left[Linearly separable]
+.pull-right[*Not* linearly separable]
+---
+# Take home messages
+
+- We learnt how to formulate the objective function for ridge regression and logistic regression
+
+- Linear models have nice merits: fast to train, interpretability
+
+- Nonetheless not all datasets are linearly separable
+
+    </textarea>
+    <style TYPE="text/css">
+      code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}
+    </style>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+      tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] // removed 'code' entry
+      }
+      });
+      MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i = 0; i < all.length; i += 1) {
+		     all[i].SourceElement().parentNode.className += ' has-jax';
+		     }
+		     });
+		     </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../remark.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+        highlightStyle: 'github',
+        highlightSpans: true,
+        highlightLines: true
+      });
+    </script>
+  </body>
+</html>
