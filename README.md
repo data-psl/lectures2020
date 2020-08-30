@@ -4,7 +4,8 @@ For commiting notebooks, use jupytext ipynb -> py
 
 ## Lectures
 
-  1. [Introduction to machine learning](https://data-psl.github.io/lectures2020/slides/01_intro_to_machine_learning)
+  1. [Machine learning: history, application, successes](https://data-psl.github.io/lectures2020/slides/01_machine_learning_successes)
+  2. [Introduction to machine learning](https://data-psl.github.io/lectures2020/slides/02_intro_to_machine_learning)
 
 ## Practical works
 
