@@ -236,7 +236,7 @@ Learning algorithms automate this process!
 
 - A model can be seen as a function $f$ that maps a feature vector $\mathbf{x}$ (input) to a target $y$ (output).
 
-- Given input-output pairs (training samples) $(\mathbf{x}_1, y_1)$, $(\mathbf{x}_2, y_2)$,
+- Given input-output pairs (training examples) $(\mathbf{x}_1, y_1)$, $(\mathbf{x}_2, y_2)$,
 ..., $(\mathbf{x}_n, y_n)$, we want to find a $f$ such that
 
 $$
@@ -244,9 +244,9 @@ f(\mathbf{x}_i) \approx y_i
 $$
 
 ---
-# Example: the nearest neighbor model
+# Example: the nearest neighbor algorithm
 
-The model $f(\mathbf{x})$ searches for the example $\mathbf{x}_i$ with smallest distance
+With this algorithm, $f(\mathbf{x})$ searches for the example $\mathbf{x}_i$ with smallest distance
 $d(\mathbf{x}, \mathbf{x}_i)$ and returns the label associated with this example.
 
 .center[<img src="sphx_glr_plot_iris_knn_001.png" width="65%"/>]
@@ -269,10 +269,14 @@ Does this person make more than 50K per year?
 ---
 # Generalizing
 
-- In machine learning, we want to predict on new data instances 
+- In machine learning, we want to predict on new data instances.
+That is, for a feature vector $\mathbf{x}$ not seen in the training set,
+we want to compute $f(\mathbf{x})$.
+
 - In the census example, we want to predict the income of new
 individuals, with a combination of jobs and demographics that we have
-never seen
+never seen.
+
 - Many sources of variability: age workclass, education, marital-status,
 occupation, ...
 
@@ -512,12 +516,26 @@ $f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
     <img src="sphx_glr_plot_bias_variance_003.png" style="width: 500px;" />
 ]
 ---
+# Cross-validation
+
+- Repeatedly split the data into training and validation sets and average the accuracy scores
+
+- More robust estimation of the quality of hyper-parameters, but requires to train the model several times
+
+.center[
+<img src="figures/cross_validation.png" width="75%" />
+]
+
+---
 # Take home messages
 
-* Machine learning is about extracting from *data* rules that *generalize*
-  to new observations
+* Machine learning is about extracting from *data* models that *generalize*
+  to new observations.
 
-* We work with a data matrix $\mathbf{X}$ and target vector $\mathbf{y}$
+* Bias (underfit) vs. Variance (overfit) trade-off.
+
+* Never tune hyper-parameters / model complexity against the test data; 
+use validation data or cross-validation instead.
 
     </textarea>
     <style TYPE="text/css">
