@@ -30,6 +30,10 @@ Pierre Ablin
 
 .footnote.tiny[Credits: many contents and figures are borrowed from the scikit-learn [mooc](https://github.com/inria/scikit-learn-mooc/) and scipy
 [lecture notes](https://scipy-lectures.org/packages/scikit-learn/index.html).]
+
+---
+.center[
+# Recap from yesterday]
 ---
 
 # Classification Dataset: Iris
@@ -409,6 +413,9 @@ Usual ways to build these regions.
 <br/>
 ]
 
+---
+
+# Decision trees
 
 ---
 # Decision trees
@@ -780,6 +787,8 @@ depth = 10
 <br/>
 ]
 
+---
+# Linear models
 
 ---
 # Linear models
@@ -939,20 +948,20 @@ Output $z_1, \cdots, z_q$
 
 **Parameters**
 
-- Weights $w^i$, $i=1\dots q$
-- Biases $b$
-- Non linearity $\sigma$
+- Weights of $p$ coefficients $w^i$, $i=1\dots q$
+- Biases $b^i$
+- Non linearity $\sigma$ (e.g. $\sigma = ReLU, \sigma = \tanh$, ...)
 
 --
 
-$z_i = \sigma(w^i_1\times x_1 + \dots + w^i_p \times x_p + b)$
+$$z_i = \sigma(w^i_1\times x_1 + \dots + w^i_p \times x_p + b^i)$$
 
 
 ---
 # Neural networks
 
 
-$z_i = \sigma(w^i_1\times x_1 + \dots + w^i_p \times x_p + b)$
+$z_i = \sigma(w^i_1\times x_1 + \dots + w^i_p \times x_p + b^i)$
 --
 
 
@@ -968,8 +977,6 @@ Layers are stacked:
 
 
 $z_i = \sigma(w^i_1\times x_1 + \dots + w^i_p \times x_p + b)$
---
-
 
 Layers are stacked:
 
@@ -978,7 +985,7 @@ Layers are stacked:
 <br/>
 ]
 
-Here, 3 layers: depth=3
+Here, 2 layers: depth=2
 
 ---
 # Universal approximators
