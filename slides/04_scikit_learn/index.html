@@ -43,13 +43,79 @@ Formal definition of supervised learning
 - $x \in \mathbb{R}^p \to \hat y = f_\theta(x) \in \mathbb{R}$: regression
       - What is the height of this flower based on its age and race ?
 
+---
+# This lecture
+
+- What if there isn't any label ? A short introduction to unsupervised learning
+
+- How do I code all of this ? A short introduction to `scikit-learn`
+
+
+
+---
+# Unsupervised learning
+
+What can we do if we are only provided data without labels ?
+
+.center[
+<img src="kmeans0.png" style="width: 500px;" />
+]
+
+---
+# Unsupervised learning
+
+Cluster them around compact areas
+
+.center[
+<img src="kmeans1.png" style="width: 500px;" />
+]
+
+---
+# Unsupervised learning
+
+What happened ?
+
+.center[
+<img src="kmeans2.png" style="width: 500px;" />
+]
+
+We found centroids $(y\_j)\_{1\leq j\leq c}$, with minimal distance $ \sum\_{i=1}^n \text{Dist}\big(x\_i, (y\_j)\_{1\leq j\leq c}\big) $
+
+---
+# Unsupervised learning
+
+Overfitting
+
+.center[
+<img src="kmeans_over.png" style="width: 500px;" />
+]
+
+---
+# Unsupervised learning
+
+Underfitting
+
+.center[
+<img src="kmeans_under.png" style="width: 500px;" />
+]
+
+---
+# Unsupervised learning
+
+.center[
+<img src="kmeans2.png" style="width: 500px;" />
+]
+
+Why is it useful ?
+  - Cluster number is a new feature !
+  - Propagate a few known-labels (semi-supervised learning)
 
 ---
 # What should we do to train a model ?
 
 - We are provided a $n \times p$ matrix $\mathbf{X}$ with n samples with p features
 
-- With labels $y \in \mathbb{R}^n$: $n$ associated labels
+- With labels $y \in \mathbb{R}^n$: $n$ associated labels (in a supervised setting)
 
 1. Transform data into a numerical matrix
 
@@ -261,6 +327,27 @@ from sklearn.metrics import plot_confusion_matrix
 plot_confusion_matrix(estimator, X_test, y_test)
 ```
 
+---
+# Unsupervised learning
+
+```python
+from sklearn.datasets import make_classification
+import matplotlib.pyplot as plt
+
+# Synthetic 2D dataset for visualization
+X, y = make_classification(n_samples=200,
+ n_features=2, n_redundant=0, class_sep=2)
+
+km = KMeans(n_clusters=4)
+km.fit(X)
+y_pred = km.predict(X)
+
+plt.scatter(X[:, 0], X[:, 1], c=y_pred)
+```
+
+.center[
+<img src="kmeans2.png" style="width: 300px;" />
+]
 
 ---
 # Preprocessing
