@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Machine learning models</title>
+    <meta charset="utf-8">
+    <style>
+     .left-column {
+       width: 50%;
+       float: left;
+     }
+     .right-column {
+       width: 50%;
+       float: right;
+     }
+     .grey { color: #bbbbbb; }
+      </style>
+    <link rel="stylesheet" type="text/css" href="slides.css">
+  </head>
+  <body>
+      <textarea id="source">
+class: center, middle
+
+# Optimization for machine learning
+
+Pierre Ablin
+
+.affiliations[
+  ![École Normale Supérieure](images/logo_ens_psl_couleur.png)
+]
+
+---
+
+# Gradient descent
+
+is the most basic and simplest method for machine learning optimization
+
+--
+
+However, in many cases we can do better !
+
+--
+
+This class:
+
+- Exploit the many samples we have (stochatic methods)
+
+--
+- Exploit geometry (second order methods)
+
+
+---
+# Stochastic methods
+
+
+
+
+---
+# Sum structure
+
+Recall the cost function for linear regression:
+
+$$
+\ell(\mathbf{w}) = \sum_{i=1}^n(\mathbf{w}^{\top}\mathbf{x}_i - y_i)^2
+$$
+
+--
+
+Like most cost functions in machine learning, it writes as a **sum over samples**.
+
+--
+
+The gradient of $\ell$ therefore also writes as a sum over samples:
+
+$$
+\nabla \ell(\mathbf{w}) = \sum_{i=1}^n \nabla(\mathbf{w}^{\top}\mathbf{x}_i - y_i)^2
+$$
+
+
+---
+# Sum structure
+
+Recall the cost function for linear regression:
+
+$$
+\ell(\mathbf{w}) = \sum_{i=1}^n(\mathbf{w}^{\top}\mathbf{x}_i - y_i)^2
+$$
+
+
+
+Like most cost functions in machine learning, it writes as a **sum over samples**.
+
+
+
+The gradient of $\ell$ therefore also writes as a sum over samples:
+
+$$
+\nabla \ell(\mathbf{w}) = 2 \sum_{i=1}^n (\mathbf{w}^{\top}\mathbf{x}_i - y_i)\mathbf{x}_i
+$$
+
+---
+# Sum structure
+
+$$
+\nabla \ell(\mathbf{w}) = 2 \sum_{i=1}^n (\mathbf{w}^{\top}\mathbf{x}_i - y_i)\mathbf{x}_i
+$$
+
+--
+
+Imagine that we have $10^6$ samples. In order to implement gradient descent, we need to compute $\nabla \ell(\mathbf{w})$
+
+--
+
+$10^6$ operations at each iteration... :(
+
+---
+# Cats and dogs
+
+Imagine that you want to train a neural network to recognize cats and dogs
+
+--
+
+You download 1000000 images of cats and dogs
+
+--
+
+If you want to train the neural network with gradient descent, in order to update the weights once, you need to make a pass on the whole dataset: ** extremely slow **
+
+
+---
+# Stochastic gradient descent
+
+$$
+\nabla \ell(\mathbf{w}) = 2 \sum_{i=1}^n (\mathbf{w}^{\top}\mathbf{x}_i - y_i)\mathbf{x}_i
+$$
+
+Life-saving idea:
+
+Use the "gradient" associated with one sample
+
+--
+
+Gradient descent:
+- $w\leftarrow w - 0.1 \times \nabla \ell(\mathbf{w})$
+
+
+--
+
+Stochastic gradient descent:
+- Choose index $i$
+- $w\leftarrow w - 0.1 \times (\mathbf{w}^{\top}\mathbf{x}_i - y_i)\mathbf{x}_i$
+
+
+
+---
+# Stochastic gradient descent
+
+
+- Choose index $i$
+- $w\leftarrow w - 0.1 \times (\mathbf{w}^{\top}\mathbf{x}_i - y_i)\mathbf{x}_i$
+
+
+--
+
+**Advantage**
+
+- One update per sample: if we have $10^6$ samples, SGD does $10^6$ updates when gradient descent only does one !
+
+--
+
+**Drawback**
+
+- The update direction is noisy, the gradient estimate has lots of variance: we are not sure that one update decreases the cost function / brings us closer to the solution.
+
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust.png" style="width: 650px;" />
+<br/>
+]
+
+
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust_1.png" style="width: 650px;" />
+<br/>
+]
+
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust_2.png" style="width: 650px;" />
+<br/>
+]
+
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust_3.png" style="width: 650px;" />
+<br/>
+]
+
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust_4.png" style="width: 650px;" />
+<br/>
+]
+
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust_5.png" style="width: 650px;" />
+<br/>
+]
+
+
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust_6.png" style="width: 650px;" />
+<br/>
+]
+
+
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust_7.png" style="width: 650px;" />
+<br/>
+]
+---
+# Illustration
+
+
+.center[
+<img src="images/sgd_illust_8.png" style="width: 650px;" />
+<br/>
+]
+
+---
+# SGD learning curves
+
+Because of gradient variance, SGD struggles to optimize perfectly, while GD does it well
+
+.center[
+<img src="images/sgd_loss.png" style="width: 650px;" />
+<br/>
+]
+
+---
+# SGD learning curves
+
+The catch: you **do not care about perfect optimization** (after a while, test error stops decreasing)
+
+.center[
+<img src="images/sgd_loss1.png" style="width: 650px;" />
+<br/>
+]
+
+
+---
+# Uses of SGD
+
+- SGD is at the core of deep learning: all deep neural networks are optimized with variants of SGD
+
+- Generally, it is used when the number of samples is high
+
+- Many variants are developed to alleviate the variance problem
+    </textarea>
+    <style TYPE="text/css">
+      code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}
+    </style>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+      tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] // removed 'code' entry
+      }
+      });
+      MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i = 0; i < all.length; i += 1) {
+		     all[i].SourceElement().parentNode.className += ' has-jax';
+		     }
+		     });
+		     </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../remark.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+        highlightStyle: 'github',
+        highlightSpans: true,
+        highlightLines: true
+      });
+    </script>
+  </body>
+</html>

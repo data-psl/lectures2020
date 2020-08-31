@@ -246,8 +246,8 @@ $$
 ---
 # Example: the nearest neighbor algorithm
 
-With this algorithm, $f(\mathbf{x})$ searches for the example $\mathbf{x}_i$ with smallest distance
-$d(\mathbf{x}, \mathbf{x}_i)$ and returns the label associated with this example.
+$f(\mathbf{x})$ searches for the example $\mathbf{x}_i$ with smallest distance
+$d(\mathbf{x}, \mathbf{x}_i)$ and returns the label $y_i$ associated with this example.
 
 .center[<img src="sphx_glr_plot_iris_knn_001.png" width="65%"/>]
 
@@ -271,7 +271,7 @@ Does this person make more than 50K per year?
 
 - In machine learning, we want to predict on new data instances.
 That is, for a feature vector $\mathbf{x}$ not seen in the training set,
-we want to compute $f(\mathbf{x})$.
+we want to build $f(\mathbf{x})$.
 
 - In the census example, we want to predict the income of new
 individuals, with a combination of jobs and demographics that we have
@@ -287,8 +287,7 @@ occupation, ...
 
 * Store all known individuals (the census)
 * Given a new individual, predict the income of its closest match in our database
-
-This is known as the nearest neighbor predictor.
+(nearest neighbor predictor)
 
 Trying out this strategy on the data we have, the census, *what error
 rate do we expect?*
@@ -497,14 +496,6 @@ $f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
 
 .center[Diminishing returns phenomenon]
 ---
-# Bayes rate: no improvement possible
-
-.center[<img src="figures/polynomial_overfit_ntrain_6766.svg" width=50%>]
-
-- Here, the data-generating process is a degree-9 polynomial 
-- We cannot do better even if we make the model more complex
-- Predictions are limited by noise
----
 # Test vs. validation error
 
 - Hyper-parameters: parameters that are not directly tuned by the learning algorithm
@@ -536,6 +527,16 @@ $f(x) \triangleq w_0 + w_1 x + w_2 x^2 + \dots + w_D x^D$.]
 
 * Never tune hyper-parameters / model complexity against the test data; 
 use validation data or cross-validation instead.
+---
+# Lab work
+
+- Introduction to Python and NumPy
+
+- Either use Google Colab (needs a gmail account)
+
+- Or download the notebook locally (needs, e.g., anaconda)
+
+- We will be present on discord if you have any questions
 
     </textarea>
     <style TYPE="text/css">
