@@ -1,6 +1,4 @@
-# lectures2020
-
-For commiting notebooks, use jupytext ipynb -> py
+# Machine learning preparatory week @PSL
 
 ## Lectures
 
@@ -13,3 +11,7 @@ For commiting notebooks, use jupytext ipynb -> py
  2. Tuesday: Practice of Scikit-learn
  3. Wednesday: Logistic regression with gradient descent
  4. Thursday: Classification with PyTorch and GPUs
+
+## Notes to developers
+
+For commiting notebooks, use jupytext ipynb -> py
