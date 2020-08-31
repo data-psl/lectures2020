@@ -517,6 +517,19 @@ The other points can be classified as "Virginica": we have built a set of rules 
 ]
 
 
+---
+# Advantages of trees
+
+Fast inference:
+- Sequentially follow a set of simple rules
+
+--
+
+Interpretability
+
+- It is easy to understand why the model made a prediction
+
+
 
 ---
 # Problem with single trees
@@ -766,7 +779,367 @@ depth = 10
 ]
 
 
+---
+# Linear models
 
+Linear models for **classification** with two classes
+
+Features: $x = (x_1, \dots, x_p)$
+
+--
+
+Model coefficients: $(\beta_1, \dots, \beta_p)$ and bias $b$
+
+--
+
+Prediction
+
+- $x$ is from class 1 if $\beta_1 \times x_1 + \cdots + \beta_p \times x_p + b > 0$
+- $x$ is from class 2 if $\beta_1 \times x_1 + \cdots + \beta_p \times x_p + b < 0$
+
+---
+# Linear models
+
+Linear models for **regression**
+
+Features: $x = (x_1, \dots, x_p)$
+
+--
+
+Model coefficients: $(\beta_1, \dots, \beta_p)$ and bias $b$
+
+--
+
+Prediction
+
+- $y\simeq \beta_1 \times x_1 + \cdots + \beta_p \times x_p + b$
+
+
+---
+# Linear models
+
+Corresponds to drawing a line / plane between points
+
+
+.center[
+<img src="images/linear_model1.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Linear models
+
+Corresponds to drawing a line / plane between points
+
+
+.center[
+<img src="images/linear_model2.png" style="width: 450px;" />
+<br/>
+]
+
+
+---
+# Linear models
+
+Corresponds to drawing a line / plane between points
+
+
+.center[
+<img src="images/linear_model3.png" style="width: 450px;" />
+<br/>
+]
+
+--
+
+- Versicolor if $2.8 \times$ length $+2.4 \times$ width $-17.6 < 0$
+- Virginica otherwise
+
+
+---
+# Linear models: use case
+
+Linear models are extremely simple. Cannot separate such dataset:
+
+.center[
+<img src="images/linear_model4.png" style="width: 350px;" />
+<br/>
+]
+
+Widely used when the number of samples is **not** much larger than number of features
+
+
+---
+# Linear models and overfit
+
+Despite their simplicity, linear models **can** overfit, especially when there are not enough samples.
+
+--
+
+In general, if the number of samples $n$ is $\leq$ number of features $p$, you can always find linear coefficients such that the prediction is perfect on each sample
+
+--
+
+** Even if the dataset is pure noise**
+
+--
+
+In 2-d, if you only have $2$ points, you can always separate them with a line.
+
+---
+# Linear models and overfit
+
+## Example:
+
+Target $y$: number of covid cases in France in the last 3 days
+
+
+$y = (7379, 5353, 5413)$
+
+--
+
+3 features:
+
+- Temperature in Paris in the last 3 days: $x_1 = (19, 21, 19)$
+
+--
+- Height of the tide in Brest: $x_2 = (5.62, 5.90, 6.26)$
+
+--
+- Number of students in this class $x_3 = (0, 0, 62)$
+
+--
+
+You can check that:
+
+$$
+y = 11349.1 \times x_1 -9995.8 \times x_2 + 87.3 \times x_3
+$$
+
+---
+# Neural networks
+
+---
+# Neural networks
+
+Neural networks are a powerful way to go beyond linear models.
+
+--
+- Sequence of layers
+- One layer maps $p$ inputs to $q$ outputs
+
+--
+
+Input $x_1, \cdots, x_p$
+
+Output $z_1, \cdots, z_q$
+
+--
+
+**Parameters**
+
+- Weights $w^i$, $i=1\dots q$
+- Biases $b$
+- Non linearity $\sigma$
+
+--
+
+$z_i = \sigma(w^i_1\times x_1 + \dots + w^i_p \times x_p + b)$
+
+
+---
+# Neural networks
+
+
+$z_i = \sigma(w^i_1\times x_1 + \dots + w^i_p \times x_p + b)$
+--
+
+
+Layers are stacked:
+
+.center[
+<img src="images/Colored_neural_network.svg" style="width: 350px;" />
+<br/>
+]
+
+---
+# Neural networks
+
+
+$z_i = \sigma(w^i_1\times x_1 + \dots + w^i_p \times x_p + b)$
+--
+
+
+Layers are stacked:
+
+.center[
+<img src="images/Colored_neural_network.svg" style="width: 270px;" />
+<br/>
+]
+
+Here, 3 layers: depth=3
+
+---
+# Universal approximators
+
+
+**Theorem:** a neural network with one hidden layer is a universal approximator.
+
+With enough hidden units, it can approximate any transform.
+
+--
+
+**Striking** difference with linear model
+
+.center[
+<img src="images/linear_model4.png" style="width: 350px;" />
+<br/>
+]
+
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+--
+
+- Can learn more complicated functions with fewer hidden units
+
+--
+
+.center[
+<img src="images/nn.png" style="width: 350px;" />
+<br/>
+]
+
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+1 layer
+
+2 hidden units
+
+
+.center[
+<img src="images/nn_one_2.png" style="width: 350px;" />
+<br/>
+]
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+1 layer
+
+3 hidden units
+
+
+.center[
+<img src="images/nn_one_3.png" style="width: 350px;" />
+<br/>
+]
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+1 layer
+
+4 hidden units
+
+
+.center[
+<img src="images/nn_one_4.png" style="width: 350px;" />
+<br/>
+]
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+1 layer
+
+5 hidden units
+
+
+.center[
+<img src="images/nn_one_5.png" style="width: 350px;" />
+<br/>
+]
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+1 layer
+
+6 hidden units
+
+
+.center[
+<img src="images/nn_one_6.png" style="width: 350px;" />
+<br/>
+]
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+2 layers
+
+2 hidden units
+
+
+.center[
+<img src="images/nn_two_2.png" style="width: 350px;" />
+<br/>
+]
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+2 layers
+
+3 hidden units
+
+
+.center[
+<img src="images/nn_two_3.png" style="width: 350px;" />
+<br/>
+]
+
+
+---
+# Role of depth
+
+If 1-layers Neural networks can learn any function, why do you need more layers?
+
+2 layers
+
+4 hidden units
+
+
+.center[
+<img src="images/nn_two_4.png" style="width: 350px;" />
+<br/>
+]
+
+
+---
+# Neural nets and overfit
+
+- Neural nets have lots of parameters, so you need many samples to train them, otherwise they overfit
+
+- Mystery : some very big neural networks (i.e. for image recognition) have many more parameters than training samples, yet they do not overfit
+
+
+
+---
+# Next:
+
+- How do you easily use all these models in Python?
 
 
     </textarea>
