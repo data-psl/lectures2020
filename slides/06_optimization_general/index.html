@@ -283,6 +283,138 @@ The catch: you **do not care about perfect optimization** (after a while, test e
 - Generally, it is used when the number of samples is high
 
 - Many variants are developed to alleviate the variance problem
+
+
+
+---
+
+# Squeezing more from geometry: second order methods
+
+
+---
+# All functions look the same
+
+
+$f$ a smooth function of $p$ variables
+
+We want to minimize $f$, and find its minimizer $\tilde{w}$
+
+
+--
+
+Around each point $w$, $f$ looks like a quadratic function (extension of second order polynomials):
+
+--
+
+For $w'$ close enough from $w$ (Taylor expansion):
+$$f(w') \simeq f(w) + (w' - w)^{\top}\nabla f(w) + \frac12 (w' - w)^{\top}H(w' - w) $$
+
+--
+
+- $\nabla f(w)$ is the gradient, it is a vector of size $p$
+- $H$ is the Hessian at $w$, it is a matrix of size $p\times p$
+- We assume for simplicity that $H$ is a positive matrix
+
+---
+# Quadratic functions
+
+$$\psi(w') = f(w) + (w' - w)^{\top}\nabla f(w) + \frac12 (w' - w)^{\top}H(w' - w) $$
+
+The level lines of this function are ellipses.
+
+--
+
+In 2D:
+
+
+.center[
+<img src="images/quadratic.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Minimizing quadratic functions
+
+We want to minimize $f$, and $f$ looks like $\psi$
+
+--
+
+- Minimize $\psi$ instead
+
+
+.center[
+<img src="images/quadratic1.png" style="width: 450px;" />
+<br/>
+]
+
+---
+# Newton's method
+
+$$\psi(w') = f(w) + (w' - w)^{\top}\nabla f(w) + \frac12 (w' - w)^{\top}H(w' - w) $$
+
+- $\nabla \psi(w') = \nabla f(w) + H(w' - w)$
+
+--
+
+- Hence, $\psi$ is minimized for $\tilde{w} = w - H^{-1}\nabla f(w)$
+
+--
+
+Same as gradient descent, but with a *metric change*:
+
+
+| Gradient descent | Newton's method|
+| ------------ | ----------- |
+| $$w\leftarrow w - \eta \nabla f(w)$$ | $$w\leftarrow w - H^{-1} \nabla f(w)$$ |
+
+
+---
+# Newton's method: convergence speed
+
+$$w\leftarrow w - H^{-1} \nabla f(w)$$
+
+
+Quadratic convergence speed (=as fast as it gets ! )
+
+Rule of thumb:
+
+- If at iteration $n$, error $= 10^{-3}$
+
+--
+- at iteration $n+1$, error$=10^{-6}$
+
+--
+
+.center[
+<img src="images/newton_cv.png" style="width: 450px;" />
+<br/>
+]
+
+
+---
+# Newton's method is never used in practice...
+
+--
+
+ Because it requires computing the Hessian matrix at each iteration
+
+- Gradient descent: gradient has $p$ coefficents
+
+--
+- Newton's method: Hessian has $p^2$ coefficients: ** much more expensive **
+
+--
+
+Because we need to invert a big linear system
+
+- Computing $H^{-1}\nabla f (w)$ is very expensive
+
+
+---
+# We use quasi-Newton methods instead
+
+Goal: imitate Newton's direction $H^{-1}\nabla f(w)$, but at a lower cost.
+
     </textarea>
     <style TYPE="text/css">
       code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}
