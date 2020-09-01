@@ -18,3 +18,5 @@ Beware that you need to save a copy of your notebook after opening to be able to
 - [04.2 Clustering with k-means](https://colab.research.google.com/github/data-psl/lectures2020/blob/master/notebooks/02_sklearn/04.2-Clustering-KMeans.ipynb)
 - [04.3 Density and GMM](https://colab.research.google.com/github/data-psl/lectures2020/blob/master/notebooks/02_sklearn/04.3-Density-GMM.ipynb)
 - [05 Validation](https://colab.research.google.com/github/data-psl/lectures2020/blob/master/notebooks/02_sklearn/05-Validation.ipynb)
+
+- [06 Pipeline](https://colab.research.google.com/github/data-psl/lectures2020/blob/master/notebooks/02_sklearn/06-Pipeline.ipynb)
