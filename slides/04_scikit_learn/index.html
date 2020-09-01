@@ -41,7 +41,7 @@ Formal definition of supervised learning
     - Is this mail a spam ? Is this a dog ?
 
 - $x \in \mathbb{R}^p \to \hat y = f_\theta(x) \in \mathbb{R}$: regression
-      - What is the height of this flower based on its age and race ?
+      - What is the height of this flower based on its age and species ?
 
 ---
 # This lecture
@@ -294,7 +294,7 @@ y_pred = estimator.predict(X_test)
 
     - Majority voting/mean in random forests
 
-- When a probabilistic model is available
+- When a probabilistic model is available (classifier)
 
 ```python
 y_pred = estimator.predict_proba(X_test)
@@ -327,6 +327,14 @@ from sklearn.metrics import plot_confusion_matrix
 plot_confusion_matrix(estimator, X_test, y_test)
 ```
 
+Estimator can evaluate their performance directly on test data
+```python
+estimator.score(X_test, y_test)
+```
+with the metric adapted to the estimator.
+
+- Often you want to choose the metric yourself !
+
 ---
 # Unsupervised learning
 
@@ -348,6 +356,13 @@ plt.scatter(X[:, 0], X[:, 1], c=y_pred)
 .center[
 <img src="kmeans2.png" style="width: 300px;" />
 ]
+
+---
+# Choosing your estimator
+.center[
+<img src="images/ml_map.png" style="width: 800px;" />
+]
+
 
 ---
 # Preprocessing
@@ -373,7 +388,25 @@ X = transformer.transform(X)
 
     - So that they are zero-mean and one-std
 
-- Reduce the dimension
+```python
+        standard_scaler = StandardScaler()
+        standard_scaler.fit(X)
+        X_t = standard_scaler.transform(X)
+        print(X_t.mean(axis=0))  # [0, 0, ..., 0]
+        print(X_t.std(axis=0)) # [1, 1, ..., 1]
+```
+
+- Impute missing values
+```python
+    imputer = SimpleImputer(strategy='median'))
+    imputer.fit(X, stragy='median') # X contains `np.nan`
+    X_imp = imput.transform(X) # X no longer contains `np.nan`
+```
+
+---
+# Useful preprocessing
+
+- Reduce the dimension of the $X$ matrix
   - Random projection (multiplication of $X$ by a matrix $P \in \mathbb{R}^{p' \times p}$)
   - Principal component analysis: multiplication of $X$ by a matrix $P$ that maximizes the variance of $P X$).
 
@@ -416,7 +449,11 @@ estimator_cv = GridSearchCV(estimator,
 estimator_cv.fit(X, y)  # Tests validation performance for all C
 ```
 
-So that you may forget about hyper-parameters
+- So that you may forget about hyper-parameters
+
+- While knowing what you are doing (too big a grid overfits !)
+
+
 
 ---
 # And also
@@ -445,16 +482,14 @@ So that you may forget about hyper-parameters
 
 
 ---
-# Other useful libraries
-
-- You have seen some `matplotlib` yesterday
+# Companion lib: `matplotlib`
 
 .center[
 <img src="images/matplotlib.webp" style="width: 500px;" />
 ]
 
 ---
-# Other useful libraries
+# Companion lib: `Pandas`
 - `Pandas` to handle columnar data + time-series
 
 .center[
@@ -462,16 +497,47 @@ So that you may forget about hyper-parameters
 ]
 
 ---
-# Other useful libraries
-- Seaborn to quickly visualize `pandas` DataFrame
+# Handling `pandas.DataFrame`
+- `Pandas` to `numpy` with `ColumnTransformer` and `Pipeline`
 
-.center[
-<img src="images/seaborn.png" style="width: 500px;" />
-]
+```python
+X, y = fetch_openml("titanic", version=1, as_frame=True, return_X_y=True)
+categorical_columns = ['pclass', 'sex', 'embarked',]
+numerical_columns = ['age', 'sibsp', 'parch', 'fare']
 
+X = X[categorical_columns + numerical_columns]
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
 
+categorical_pipe = Pipeline([
+    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+numerical_pipe = Pipeline([
+    ('imputer', SimpleImputer(strategy='mean'))
+])
+preprocessing = ColumnTransformer(
+    [('cat', categorical_pipe, categorical_columns),
+     ('num', numerical_pipe, numerical_columns)])
 
+preprocessing.fit(X_train)
+X_train = preprocessing.transform(X_train)  # Now a Numpy array
+```
 
+---
+# Companion lib: `Seaborn`
+- Quickly visualize `pandas` DataFrame
+
+---
+# This afternoon
+
+- A notebook tutorial on `scikit-learn` (adapted)
+
+- For those who go fast:
+
+    - `Pipeline`
+    - `GridSearchCV`
+
+- Take your own data and explore it !
 
 
     </textarea>
