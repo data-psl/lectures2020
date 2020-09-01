@@ -31,7 +31,7 @@ plt.savefig('images/boston_3.png', bbox_extra_artists=[x_, y_],
             bbox_inches='tight', dpi=200)
 
 
-rf = RandomForestRegressor().fit(X[:, 0].reshape(-1, 1), y)
+rf = RandomForestRegressor(max_depth=3).fit(X[:, 0].reshape(-1, 1), y)
 xx = np.logspace(-2, 2)
 plt.plot(xx, rf.predict(xx.reshape(-1, 1)), linewidth=3, c='red',
          label='prediction')
