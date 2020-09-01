@@ -4,7 +4,8 @@
 
   1. [Machine learning: history, application, successes](https://data-psl.github.io/lectures2020/slides/01_machine_learning_successes)
   2. [Introduction to machine learning](https://data-psl.github.io/lectures2020/slides/02_intro_to_machine_learning)
-  3. [Machine learning models](https://data-psl.github.io/lectures2020/slides/03_machine_learning_models/#1)
+  3. [Machine learning models](https://data-psl.github.io/lectures2020/slides/03_machine_learning_models/)
+  3. [Machine learning models](https://data-psl.github.io/lectures2020/slides/04_scikit_learn/)
 
 
 ## Practical works
