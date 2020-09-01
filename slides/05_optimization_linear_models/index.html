@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Introduction to Machine Learning</title>
+    <title>Optimization for linear models</title>
     <meta charset="utf-8">
     <style>
      .left-column {
@@ -58,9 +58,14 @@ Google Research, Brain team
 
 - Understand how to formulate the objective function of a linear regression 
 
+--
 - Derive the closed form formula in the case of ridge regression
 
+--
 - Understand how to formulate the objective function of logistic regression
+
+--
+- Solve the logistic regression objective using gradient descent
 ---
 class: center, middle
 
@@ -70,13 +75,15 @@ class: center, middle
 
 - A prediction model is a function $f$ that maps a feature vector $\mathbf{x} \in \mathbb{R}^d$ to a target $y \in \mathbb{R}$.
 
-- Linear model without bias term
+--
+- Linear model without intercept term
 $$
 f(\mathbf{x}) = \sum_{i=1}^d w_i x_i = \mathbf{w}^\top \mathbf{x}
 = w\_1 x\_1 + \dots + w\_d x\_d
 $$
 
-- Linear model with bias term
+--
+- Linear model with intercept term
 $$
 f(\mathbf{x}) = w\_0 + \mathbf{w}^\top \mathbf{x}
 = w\_0 + w\_1 x\_1 + \dots + w\_d x\_d
@@ -98,6 +105,9 @@ $$
 Salary = 0.4 x Education + 0.2 x Hours-per-week + 0.1 x Age + ...
 
 Features are also commonly called explanatory variables.
+
+Weights are interpretable, large magnitude indicating feature importance.
+
 ---
 # Linear regression $(d=1)$
 
@@ -142,6 +152,7 @@ y_i - f(\mathbf{x}_i) = y_i - \mathbf{w}^\top x_i
 \quad \text{for all } i \in \{1, \dots, n\}
 $$
 
+--
 - Squared errors
 $$
 \frac{1}{2} (y_i - f(\mathbf{x}_i))^2 = 
@@ -172,21 +183,88 @@ $$
 $$
 ]
 
+--
 - Or in matrix notation: $\frac{1}{2} ||\mathbf{y} - \mathbf{X} \mathbf{w}||^2$
 ---
 # Regularization
 
 - If the weights $w_j$ have too large magnitude $|w_j|$, the model could do poorly on new data
 
+--
 - Add a penalty term $\sum\_{j=1}^d w_j^2 = ||\mathbf{w}||^2$ that will promote solutions with lower magnitude
 
+--
 - Penalized objective (ridge regression)
 
 $$
-\frac{1}{2} ||\mathbf{y} - \mathbf{X} \mathbf{w}||^2 + \frac{\alpha}{2} ||\mathbf{w}||^2
+L(\mathbf{w}) = \frac{1}{2} ||\mathbf{y} - \mathbf{X} \mathbf{w}||^2 + \frac{\alpha}{2} ||\mathbf{w}||^2
 $$
 
-- Analytical solution (left as an exercise)
+--
+- Let us derive the analytical solution!
+---
+# Convex functions
+
+.center[
+  <img src="figures/convex_function.png" width="80%" />
+]
+
+A function $f(x)$ is said to be convex if the line segment between two points always lies above the graph between these two points
+
+$$
+t f(x_1) + (1-t) f(x_2) \le f(t x_1 + (1-t) x_2) \forall x_1, x_2, t \in [0,1]
+$$
+---
+# Gradient 
+
+- The gradient of a function $L$ from $\mathbb{R}^d$ to $\mathbb{R}$ at a point $\mathbf{w} \in \mathbb{R}^d$ is 
+the vector whose components are the partial derivatives of $L$
+
+$$
+\nabla L(\mathbf{w}) = 
+\begin{bmatrix}
+\frac{L(\mathbf{w})}{w_1} \\\\
+\frac{L(\mathbf{w})}{w_2} \\\\
+\dots \\\\
+\frac{L(\mathbf{w})}{w_d} \\\\
+\end{bmatrix}
+$$
+
+--
+- It is a vector field: it associates a vector in $\mathbb{R}^d$ to any point in $\mathbb{R}^d$
+
+--
+- If $\nabla L(\mathbf{w})$ is non-zero, it points to the direction of [steepest ascent](https://www.khanacademy.org/math/multivariable-calculus/multivariable-derivatives/gradient-and-directional-derivatives/v/why-the-gradient-is-the-direction-of-steepest-ascent)
+---
+# Stationary points
+
+- A stationary point is a point where the gradient is zero (red circles in the figures below)
+
+.center[
+<img src="figures/stationary_point.png" />
+]
+
+- For convex functions (as is the case of $L(\mathbf{w})$ for ridge regression), 
+stationary points are optimal solutions
+
+---
+# Analytical solution
+
+- For ridge regression, the gradient of $L(\mathbf{w})$ is
+
+$$
+\nabla L(\mathbf{w}) = - \mathbf{X}^\top (\mathbf{y} - \mathbf{X}^\top \mathbf{w}) + \alpha \mathbf{w}
+$$
+
+--
+- Setting the gradient to zero, we obtain
+
+$$
+\mathbf{X}^\top \mathbf{X} \mathbf{w} + \alpha \mathbf{w} = \mathbf{X}^\top \mathbf{y}
+$$
+
+--
+- Simplifying, we obtain
 
 $$
 \mathbf{w}^\star = (\mathbf{X}^\top \mathbf{X} + \alpha \mathbf{I})^{-1} \mathbf{X}^\top \mathbf{y}
@@ -210,6 +288,7 @@ For binary classification (i.e., with only two classes), $y$ can only take two v
 advantage of the fact that the target $y$ can only take two possible values
 ($1$ or $0$).
 
+--
 - The sigmoid function $\sigma(u) = \frac{1}{1 + e^{-u}}$ maps $\mathbb{R}$ to $[0,1]$
 
 .center[
@@ -220,7 +299,6 @@ advantage of the fact that the target $y$ can only take two possible values
 
 - Maps the linear model's prediction to $[0,1]$ using the sigmoid function
 $$
-g(\mathbf{x}) =
 \sigma(f(\mathbf{x})) 
 = \sigma(\mathbf{w}^\top \mathbf{x})
 = \frac{1}{1 + e^{-\mathbf{w}^\top \mathbf{x}}}
@@ -231,72 +309,86 @@ $$
 <img src="../02_intro_to_machine_learning/figures/logistic_color.svg" width="50%">
 ]
 ---
+# Objective function
+
+- A naive objective function would be
+
+$$
+\sum_{i=1}^n (y_i - \sigma(\mathbf{w}^\top \mathbf{x}_i))^2 + \frac{\alpha}{2} ||\mathbf{w}||^2
+$$
+Non-convex, as the composition of $(\cdot)^2$ and $\sigma$ is not convex!
+
+- We will use (penalized) maximum likelihood estimation instead.
+
+---
 # Likelihood of one sample
 
-- $g(\mathbf{x}) = \sigma(f(\mathbf{x}))$ can be interpreted as the probability that $y=1$
+- $\sigma(\mathbf{w}^\top \mathbf{x})$ can be interpreted as the probability that $y=1$
 is the target associated with $\mathbf{x}$
 
-- $1 - g(\mathbf{x})$ can be interpreted as the probability that $y=0$ is the target
+--
+- $1 - \sigma(\mathbf{w}^\top \mathbf{x})$ can be interpreted as the probability that $y=0$ is the target
 
-- If $y$ is the correct target, the likelihood of our model for $\mathbf{x}$ is
+--
+- Combining the two, we can write the likelihood of $(\mathbf{x}, y)$ under the model as 
 $$
-g(\mathbf{x}) 1\_{[y = 1]} \times (1- g(\mathbf{x})) 1\_{[y = 0]}
-= g(\mathbf{x})^y (1-g(\mathbf{x}))^{1 - y}
+\begin{aligned}
+\sigma(\mathbf{w}^\top \mathbf{x}) \quad \text{if} \quad y = 1 \\\\
+(1- \sigma(\mathbf{w}^\top \mathbf{x})) \quad \text{if} \quad y = 0
+\end{aligned}
 $$
-where $1\_{[condition]}$ equals $1$ if condition is True, $0$ otherwise.
+
+--
+- which we can write more concisely as
+$$
+\sigma(\mathbf{w}^\top \mathbf{x})^y (1-\sigma(\mathbf{w}^\top \mathbf{x}))^{1 - y}
+$$
 ---
-# Likelihood of the entire data
+# Likelihood of the entire dataset
 
 - The likelihood of $(\mathbf{x}\_1, y\_1)$, ..., $(\mathbf{x}\_n, y\_n)$ for the model is
 .small[
 $$
-\begin{aligned}
-&\prod_{i=1}^n 
-g(\mathbf{x}\_i)^{y\_i} (1-g(\mathbf{x}\_i))^{1 - y\_i} \\\\
-= 
-&g(\mathbf{x}\_1)^{y\_1} (1-g(\mathbf{x}\_1))^{1 - y\_1}
-\dots
-g(\mathbf{x}\_n)^{y\_n} (1-g(\mathbf{x}\_n))^{1 - y\_n}
-\end{aligned}
+\prod_{i=1}^n 
+\sigma(\mathbf{w}^\top \mathbf{x}\_i)^{y\_i} (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i))^{1 - y\_i}
 $$
 ]
 
+--
 - The log-likelihood is
 .tiny[
 $$
-\begin{aligned}
-&\sum_{i=1}^n 
-y\_i \log g(\mathbf{x}\_i) + (1-y\_i) \log (1-g(\mathbf{x}\_i)) \\\\
-= & y\_1 \log g(\mathbf{x}\_1) + (1-y\_1) \log (1-g(\mathbf{x}\_1)) + \dots +
-y\_n \log g(\mathbf{x}\_n) + (1-y\_n) \log (1-g(\mathbf{x}\_n)) 
-\end{aligned}
+\sum_{i=1}^n 
+y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i)) 
 $$
 ]
 
 ---
-# Objective function
+# Penalized maximum likelihood
 
 - Maximize with respect to $\mathbf{w}$ the log-likelihood
 .small[
 $$
 \sum_{i=1}^n 
-y\_i \log g(\mathbf{x}\_i) + (1-y\_i) \log (1-g(\mathbf{x}\_i))
+y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i))
 $$
 ]
 
+--
 - Or equivalently minimize the negative likelihood
 .small[
 $$
 -\sum_{i=1}^n 
-y\_i \log g(\mathbf{x}\_i) + (1-y\_i) \log (1-g(\mathbf{x}\_i))
+y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i))
 $$
 ]
 
+--
 - Add a regularization term 
 .small[
 $$
--\sum_{i=1}^n 
-y\_i \log g(\mathbf{x}\_i) + (1-y\_i) \log (1-g(\mathbf{x}\_i)) + \frac{\alpha}{2} ||\mathbf{w}||^2
+L(\mathbf{w}) = 
+-\sum_{i=1}^n y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i)) + \frac{\alpha}{2} ||\mathbf{w}||^2
 $$
 ]
 ---
@@ -304,13 +396,71 @@ $$
 
 - The optimal solution no longer enjoys a closed form solution (unlike ridge regression)
 
-- Nonetheless, the objective function is convex and 
-can be solved to optimality using gradient-based optimization
+--
+- Nonetheless, we can solve the objective numerically using gradient descent.
 
-- Topic of the next lecture!
+--
+- Moreover, the objective function is convex, as the combination of $\log$ and $\sigma$ is convex!
+---
+# Gradient descent
+
+- $-\nabla L(\mathbf{w})$ points in the direction of steepest **descent**
+
+--
+- Initialize $\mathbf{w}^0$ to some value (a vector of all zeroes will do)
+
+--
+- On iteration $t + 1$, do
+$$
+\mathbf{w}^{t + 1} = \mathbf{w}^t - \eta \nabla L(\mathbf{w})
+$$
+where $\eta > 0$ is a step size parameter
+---
+.center[
+<img src="images/gd_illust.png" />
+]
+---
+.center[
+<img src="images/gd_illust_1.png" />
+]
+---
+.center[
+<img src="images/gd_illust_2.png" />
+]
+---
+.center[
+<img src="images/gd_illust_3.png" />
+]
+---
+.center[
+<img src="images/gd_illust_4.png" />
+]
+---
+.center[
+<img src="images/gd_illust_5.png" />
+]
+---
+.center[
+<img src="images/gd_illust_6.png" />
+]
+---
+.center[
+<img src="images/gd_illust_7.png" />
+]
+---
+.center[
+<img src="images/gd_illust_8.png" />
+]
+---
+# Computing the gradients
+
+- Covered in this afternoon's lab work.
 
 ---
-# Not all data are linearly separable
+# A final word of caution
+
+Not all data are linearly separable!
+
 
 .pull-left[<img src="../02_intro_to_machine_learning/figures/lin_separable.svg" width="100%">]
 .pull-right[<img src="../02_intro_to_machine_learning/figures/lin_not_separable.svg" width="100%">]
@@ -322,9 +472,17 @@ can be solved to optimality using gradient-based optimization
 
 - We learnt how to formulate the objective function for ridge regression and logistic regression
 
+--
+- We saw how to derive the analytical solution of ridge regression and how to solve logistic regression by gradient descent
+
+--
 - Linear models have nice merits: fast to train, interpretability
 
+--
 - Nonetheless not all datasets are linearly separable
+
+
+<br/><br/>Lab work starts at 2pm!
 
     </textarea>
     <style TYPE="text/css">
