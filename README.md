@@ -8,7 +8,7 @@
   4. [Scikit-learn: estimation and pipelines](https://data-psl.github.io/lectures2020/slides/04_scikit_learn/)
   5. [Optimization for linear models](https://data-psl.github.io/lectures2020/slides/05_optimization_linear_models/)
   6. [Optimization for machine learning](https://data-psl.github.io/lectures2020/slides/06_optimization_general/)
-
+  7. [Deep learning: convolutional neural networks](https://data-psl.github.io/lectures2020/slides/07_deep_learning/)
   8. [Unsupervised learning](https://data-psl.github.io/lectures2020/slides/08_unsupervised_learning/)
 
 ## Practical works
