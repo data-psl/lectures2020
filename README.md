@@ -9,6 +9,7 @@
   5. [Optimization for linear models](https://data-psl.github.io/lectures2020/slides/05_optimization_linear_models/)
   6. [Optimization for machine learning](https://data-psl.github.io/lectures2020/slides/06_optimization_general/)
 
+  8. [Unsupervised learning](https://data-psl.github.io/lectures2020/slides/08_unsupervised_learning/)
 
 ## Practical works
 

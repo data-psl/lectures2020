@@ -13,7 +13,7 @@
        float: right;
      }
      .grey { color: #bbbbbb; }
-      
+
      .footnote {
         position: absolute;
         bottom: 3em;
@@ -56,7 +56,7 @@ Google Research, Brain team
 ---
 # Goals of this lecture
 
-- Understand how to formulate the objective function of a linear regression 
+- Understand how to formulate the objective function of a linear regression
 
 --
 - Derive the closed form formula in the case of ridge regression
@@ -148,14 +148,14 @@ $$
 
 - Residuals
 $$
-y_i - f(\mathbf{x}_i) = y_i - \mathbf{w}^\top x_i 
+y_i - f(\mathbf{x}_i) = y_i - \mathbf{w}^\top x_i
 \quad \text{for all } i \in \{1, \dots, n\}
 $$
 
 --
 - Squared errors
 $$
-\frac{1}{2} (y_i - f(\mathbf{x}_i))^2 = 
+\frac{1}{2} (y_i - f(\mathbf{x}_i))^2 =
 \frac{1}{2} (y_i - \mathbf{w}^\top x_i)^2
 \quad \text{for all } i \in \{1, \dots, n\}
 $$
@@ -215,13 +215,13 @@ $$
 t f(x_1) + (1-t) f(x_2) \le f(t x_1 + (1-t) x_2) \forall x_1, x_2, t \in [0,1]
 $$
 ---
-# Gradient 
+# Gradient
 
-- The gradient of a function $L$ from $\mathbb{R}^d$ to $\mathbb{R}$ at a point $\mathbf{w} \in \mathbb{R}^d$ is 
+- The gradient of a function $L$ from $\mathbb{R}^d$ to $\mathbb{R}$ at a point $\mathbf{w} \in \mathbb{R}^d$ is
 the vector whose components are the partial derivatives of $L$
 
 $$
-\nabla L(\mathbf{w}) = 
+\nabla L(\mathbf{w}) =
 \begin{bmatrix}
 \frac{\partial L(\mathbf{w})}{\partial w_1} \\\\
 \frac{\partial L(\mathbf{w})}{\partial w_2} \\\\
@@ -245,7 +245,7 @@ $$
 <img src="figures/stationary_point.png" />
 ]
 
-- For convex functions (as is the case of $L(\mathbf{w})$ for ridge regression), 
+- For convex functions (as is the case of $L(\mathbf{w})$ for ridge regression),
 stationary points are optimal solutions
 
 ---
@@ -300,7 +300,7 @@ advantage of the fact that the target $y$ can only take two possible values
 
 - Maps the linear model's prediction to $[0,1]$ using the sigmoid function
 $$
-\sigma(f(\mathbf{x})) 
+\sigma(f(\mathbf{x}))
 = \sigma(\mathbf{w}^\top \mathbf{x})
 = \frac{1}{1 + e^{-\mathbf{w}^\top \mathbf{x}}}
 $$
@@ -331,7 +331,7 @@ is the target associated with $\mathbf{x}$
 - $1 - \sigma(\mathbf{w}^\top \mathbf{x})$ can be interpreted as the probability that $y=0$ is the target
 
 --
-- Combining the two, we can write the likelihood of $(\mathbf{x}, y)$ under the model as 
+- Combining the two, we can write the likelihood of $(\mathbf{x}, y)$ under the model as
 $$
 \begin{aligned}
 \sigma(\mathbf{w}^\top \mathbf{x}) \quad \text{if} \quad y = 1 \\\\
@@ -350,7 +350,7 @@ $$
 - The likelihood of $(\mathbf{x}\_1, y\_1)$, ..., $(\mathbf{x}\_n, y\_n)$ for the model is
 .small[
 $$
-\prod_{i=1}^n 
+\prod_{i=1}^n
 \sigma(\mathbf{w}^\top \mathbf{x}\_i)^{y\_i} (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i))^{1 - y\_i}
 $$
 ]
@@ -359,8 +359,8 @@ $$
 - The log-likelihood is
 .tiny[
 $$
-\sum_{i=1}^n 
-y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i)) 
+\sum_{i=1}^n
+y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i))
 $$
 ]
 
@@ -370,7 +370,7 @@ $$
 - Maximize with respect to $\mathbf{w}$ the log-likelihood
 .small[
 $$
-\sum_{i=1}^n 
+\sum_{i=1}^n
 y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i))
 $$
 ]
@@ -379,16 +379,16 @@ $$
 - Or equivalently minimize the negative likelihood
 .small[
 $$
--\sum_{i=1}^n 
+-\sum_{i=1}^n
 y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i))
 $$
 ]
 
 --
-- Add a regularization term 
+- Add a regularization term
 .small[
 $$
-L(\mathbf{w}) = 
+L(\mathbf{w}) =
 -\sum_{i=1}^n y\_i \log \sigma(\mathbf{w}^\top \mathbf{x}\_i) + (1-y\_i) \log (1-\sigma(\mathbf{w}^\top \mathbf{x}\_i)) + \frac{\alpha}{2} ||\mathbf{w}||^2
 $$
 ]
