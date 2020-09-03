@@ -249,12 +249,14 @@ $$
 h\_c = (w \star x)\_c = \sum\_{a+b=c} w\_a . x\_b = \sum\_{c} w\_c \cdot x\_{h + c}
 $$
 
+.small[(Math convolutions have a minus sign)]
+
 --
 
 2D-convolutions between the weight $w \in \mathbb{R}^d$ and $x \in \mathbb{R}^n$:
 
 $$
-(w \star x)\_{u, v} = \sum\_n \sum\_m w\_{n, m} \cdot x\_{u + n, v + m} = w^T p\_{u, v}
+(w \star x)\_{u, v} = \sum\_n \sum\_m w\_{n, m} \cdot x\_{u + n, v + m} = w^T x\_{u, v}
 $$
 
 --
@@ -265,7 +267,7 @@ $x$
 --
 
 - Equivalent to a linear transform on all patches
-- **Can be parallelized on a GPU**
+- **Can be parallelized on a GPU**: same op for all pixels
 
 ---
 ## Example: convolution image
@@ -416,7 +418,7 @@ Schematic from Stanford http://cs231n.github.io/convolutional-networks
 ## Stacking layers
 
 - Stack convolutions (with optional stride and padding)
-  $$x \rightarrow h\_1 = relu(w \star x + b) \rightarrow relu(w \star h\_1 + b) \rightarrow \dots $$
+  $$x \rightarrow h\_1 = relu(w \star x + b) \rightarrow relu(w' \star h\_1 + b) \rightarrow \dots $$
 - From time to time (creates translation invariance)
   $$h\_n \rightarrow pooling(h\_{n-1}) \rightarrow \dots $$
 
@@ -427,7 +429,7 @@ Schematic from Stanford http://cs231n.github.io/convolutional-networks
 After many transformation:
 
 - we can flatten the (small image) $\rightarrow h_n$
-- Apply a last linear operator $s = w^T h_n + b$
+- Apply a last linear operator $s = w''^T h_n + b$
 - Get the class probabilities (logistic regression)
 $$ p = \text{softmax} (w^T h_n + b) \in \mathbb{R}^{1000}$$
 
@@ -482,7 +484,7 @@ class:middle, center
 # Architectures
 
 ---
-## Classic ConvNet Architecture
+## Classic ConvNet Architectures
 
 ### Input
 
