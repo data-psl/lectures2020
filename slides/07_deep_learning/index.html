@@ -249,12 +249,14 @@ $$
 h\_c = (w \star x)\_c = \sum\_{a+b=c} w\_a . x\_b = \sum\_{c} w\_c \cdot x\_{h + c}
 $$
 
+.small[(Math convolutions have a minus sign)]
+
 --
 
 2D-convolutions between the weight $w \in \mathbb{R}^d$ and $x \in \mathbb{R}^n$:
 
 $$
-(w \star x)\_{u, v} = \sum\_n \sum\_m w\_{n, m} \cdot x\_{u + n, v + m} = w^T p\_{u, v}
+(w \star x)\_{u, v} = \sum\_n \sum\_m w\_{n, m} \cdot x\_{u + n, v + m} = w^T x\_{u, v}
 $$
 
 --
@@ -264,7 +266,9 @@ $x$
 
 --
 
-Equivalent to a linear transform on all patches
+- Equivalent to a linear transform on all patches
+- **Can be parallelized on a GPU**: same op for all pixels
+
 ---
 ## Example: convolution image
 
@@ -414,7 +418,7 @@ Schematic from Stanford http://cs231n.github.io/convolutional-networks
 ## Stacking layers
 
 - Stack convolutions (with optional stride and padding)
-  $$x \rightarrow h\_1 = relu(w \star x + b) \rightarrow relu(w \star h\_1 + b) \rightarrow \dots $$
+  $$x \rightarrow h\_1 = relu(w \star x + b) \rightarrow relu(w' \star h\_1 + b) \rightarrow \dots $$
 - From time to time (creates translation invariance)
   $$h\_n \rightarrow pooling(h\_{n-1}) \rightarrow \dots $$
 
@@ -425,7 +429,7 @@ Schematic from Stanford http://cs231n.github.io/convolutional-networks
 After many transformation:
 
 - we can flatten the (small image) $\rightarrow h_n$
-- Apply a last linear operator $s = w^T h_n + b$
+- Apply a last linear operator $s = w''^T h_n + b$
 - Get the class probabilities (logistic regression)
 $$ p = \text{softmax} (w^T h_n + b) \in \mathbb{R}^{1000}$$
 
@@ -448,13 +452,39 @@ $$ p = \text{softmax} (w^T h_n + b) \in \mathbb{R}^{1000}$$
 - This gradient permits to do **stochastic gradient descent**
 
 ---
+## How do we do it in practice
+
+- Use a computing library (similar to numpy)
+
+--
+
+
+- That allows you to compute gradient using automatic differentiation
+
+
+--
+
+
+- That may run on a GPU (100x faster)
+
+
+--
+
+
+- That gives you the building blocks:
+
+
+.center[
+Jax / PyTorch / Tensorflow]
+
+---
 
 class:middle, center
 
 # Architectures
 
 ---
-## Classic ConvNet Architecture
+## Classic ConvNet Architectures
 
 ### Input
 
@@ -683,12 +713,10 @@ available!
 
 - Truncate the last layer(s) of the pre-trained network
 - Freeze the remaining layers weights
-- Add a (linear) classifier on top and train it for a few epochs
+- Add a (linear) classifier on top and train it with your data
 
 --
 - Then fine-tune the whole network or the few deepest layers
-- Use a smaller learning rate when fine tuning
-
 
 ---
 ## Data Augmentation
