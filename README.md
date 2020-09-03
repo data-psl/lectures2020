@@ -18,6 +18,9 @@
  3. Wednesday: [Optimization](https://colab.research.google.com/github/data-psl/lectures2020/blob/master/notebooks/03_optimization.ipynb)
  4. Thursday: Classification with PyTorch and GPUs
 
-## Notes to developers
+## Teachers
 
-For commiting notebooks, use jupytext ipynb -> py
+ * Pierre Ablin (ENS)
+ * Mathieu Blondel (Google Brain)
+ * Arthur Mensch (ENS)
+ * Pierre Senellart (ENS)
