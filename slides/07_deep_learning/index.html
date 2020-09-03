@@ -264,7 +264,9 @@ $x$
 
 --
 
-Equivalent to a linear transform on all patches
+- Equivalent to a linear transform on all patches
+- **Can be parallelized on a GPU**
+
 ---
 ## Example: convolution image
 
@@ -446,6 +448,32 @@ $$ p = \text{softmax} (w^T h_n + b) \in \mathbb{R}^{1000}$$
 
 
 - This gradient permits to do **stochastic gradient descent**
+
+---
+## How do we do it in practice
+
+- Use a computing library (similar to numpy)
+
+--
+
+
+- That allows you to compute gradient using automatic differentiation
+
+
+--
+
+
+- That may run on a GPU (100x faster)
+
+
+--
+
+
+- That gives you the building blocks:
+
+
+.center[
+Jax / PyTorch / Tensorflow]
 
 ---
 
@@ -683,12 +711,10 @@ available!
 
 - Truncate the last layer(s) of the pre-trained network
 - Freeze the remaining layers weights
-- Add a (linear) classifier on top and train it for a few epochs
+- Add a (linear) classifier on top and train it with your data
 
 --
 - Then fine-tune the whole network or the few deepest layers
-- Use a smaller learning rate when fine tuning
-
 
 ---
 ## Data Augmentation
