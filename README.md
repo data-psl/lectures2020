@@ -24,3 +24,16 @@
  * Mathieu Blondel (Google Brain)
  * Arthur Mensch (ENS)
  * Pierre Senellart (ENS)
+
+
+## Acknowledgements
+
+Some material of this course was borrowed and adapted:
+  * The slides from ["Deep learning: convolutional neural networks"](https://data-psl.github.io/lectures2020/slides/07_deep_learning/) are adapted from
+  Charles Ollion and Olivier Grisel [course on deep learning](!https://github.com/m2dsupsdlclass/lectures-labs)
+  * The first notebooks of the scikit-learn tutorial are taken from the great @jakevdp [tutorial](https://github.com/jakevdp/sklearn_tutorial)
+
+## License
+All the code in this repository is made available under the MIT license unless otherwise noted.
+
+The slides are published under the terms of the CC-By 4.0 license.
