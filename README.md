@@ -10,6 +10,7 @@
   6. [Optimization for machine learning](https://data-psl.github.io/lectures2020/slides/06_optimization_general/)
   7. [Deep learning: convolutional neural networks](https://data-psl.github.io/lectures2020/slides/07_deep_learning/)
   8. [Unsupervised learning](https://data-psl.github.io/lectures2020/slides/08_unsupervised_learning/)
+  9. [Introduction to Relational Database Management Systems](https://data-psl.github.io/lectures2020/slides/09_database.pdf)
 
 ## Practical works
 
