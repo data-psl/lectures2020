@@ -10,7 +10,7 @@
   6. [Optimization for machine learning](https://data-psl.github.io/lectures2020/slides/06_optimization_general/)
   7. [Deep learning: convolutional neural networks](https://data-psl.github.io/lectures2020/slides/07_deep_learning/)
   8. [Unsupervised learning](https://data-psl.github.io/lectures2020/slides/08_unsupervised_learning/)
-  9. [Introduction to Relational Database Management Systems](https://data-psl.github.io/lectures2020/slides/09_database.pdf)
+  9-10. [Introduction to Relational Database Management Systems](https://data-psl.github.io/lectures2020/slides/09_database.pdf)
 
 ## Practical works
 
@@ -19,7 +19,9 @@ Links open Colab notebooks. You may also clone this repository and work locally.
  1. Monday: [Python basics](https://colab.research.google.com/github/data-psl/lectures2020/blob/master/notebooks/01_python_basics.ipynb)
  2. Tuesday: [Practice of Scikit-learn](https://github.com/data-psl/lectures2020/tree/master/notebooks/02_sklearn)
  3. Wednesday: [Optimization](https://colab.research.google.com/github/data-psl/lectures2020/blob/master/notebooks/03_optimization.ipynb)
- 4. Thursday: [Classification with PyTorch and GPUs](https://github.com/data-psl/lectures2020/tree/master/notebooks/02_sklearn)
+ 4. Thursday: [Classification with PyTorch and GPUs](https://github.com/data-psl/lectures2020/tree/master/notebooks/04_pytorch)
+ 9. [Databases in practice
+with PostgreSQL and Python](https://github.com/data-psl/lectures2020/tree/master/notebooks/05_sql.pdf)
 
 ## Teachers
 
