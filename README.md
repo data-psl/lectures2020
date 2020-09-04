@@ -22,9 +22,9 @@ Links open Colab notebooks. You may also clone this repository and work locally.
 
 ## Teachers
 
- * Pierre Ablin (ENS)
- * Mathieu Blondel (Google Brain)
- * Arthur Mensch (ENS)
+ * [Pierre Ablin](!pierreablin.com) (ENS)
+ * [Mathieu Blondel](!mblondel.org) (Google Brain)
+ * [Arthur Mensch](!amensch.fr) (ENS)
  * Pierre Senellart (ENS)
 
 
