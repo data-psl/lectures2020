@@ -36,4 +36,4 @@ Some material of this course was borrowed and adapted:
 ## License
 All the code in this repository is made available under the MIT license unless otherwise noted.
 
-The slides are published under the terms of the CC-By 4.0 license.
+The slides are published under the terms of the [CC-By 4.0 license](https://creativecommons.org/licenses/by/4.0/legalcode).
