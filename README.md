@@ -32,7 +32,7 @@ Some material of this course was borrowed and adapted:
   * The slides from ["Deep learning: convolutional neural networks"](https://data-psl.github.io/lectures2020/slides/07_deep_learning/) are adapted from
   Charles Ollion and Olivier Grisel's [advanced course on deep learning](!https://github.com/m2dsupsdlclass/lectures-labs) (released under the
   [CC-By 4.0 license](https://creativecommons.org/licenses/by/4.0/legalcode)).
-  * The first notebooks of the scikit-learn tutorial are taken from Jake Van der Plas [tutorial](https://github.com/jakevdp/sklearn_tutorial)
+  * The first notebooks of the scikit-learn tutorial are taken from Jake Van der Plas [tutorial](https://github.com/jakevdp/sklearn_tutorial).
 
 ## License
 All the code in this repository is made available under the MIT license unless otherwise noted.
