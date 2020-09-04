@@ -11,7 +11,7 @@
   7. [Deep learning: convolutional neural networks](https://data-psl.github.io/lectures2020/slides/07_deep_learning/)
   8. [Unsupervised learning](https://data-psl.github.io/lectures2020/slides/08_unsupervised_learning/)
   9. [Introduction to Relational Database Management Systems](https://data-psl.github.io/lectures2020/slides/09_database.pdf) 
-  [(video)](!www.youtube.com/watch?v=GLeBTLoXF7Y)
+  [(video)](https://www.youtube.com/watch?v=GLeBTLoXF7Y)
 
 ## Practical works
 
@@ -25,10 +25,10 @@ Links open Colab notebooks. You may also clone this repository and work locally.
 
 ## Teachers
 
- * [Pierre Ablin](!pierreablin.com) (ENS)
- * [Mathieu Blondel](!mblondel.org) (Google Brain)
- * [Arthur Mensch](!amensch.fr) (ENS)
- * [Pierre Senellart](!pierre.senellart.com) (ENS)
+ * [Pierre Ablin](https://pierreablin.com) (ENS, DMA)
+ * [Mathieu Blondel](https://mblondel.org) (Google Brain)
+ * [Arthur Mensch](https://amensch.fr) (ENS, DMA)
+ * [Pierre Senellart](https://pierre.senellart.com) (ENS, DI)
 
 
 ## Acknowledgements
