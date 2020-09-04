@@ -25,7 +25,7 @@ Links open Colab notebooks. You may also clone this repository and work locally.
  * [Pierre Ablin](!pierreablin.com) (ENS)
  * [Mathieu Blondel](!mblondel.org) (Google Brain)
  * [Arthur Mensch](!amensch.fr) (ENS)
- * Pierre Senellart (ENS)
+ * [Pierre Senellart](!https://pierre.senellart.com/) (ENS)
 
 
 ## Acknowledgements
