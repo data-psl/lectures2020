@@ -8,3 +8,10 @@
   6. [Optimization for machine learning](https://data-psl.github.io/lectures2020/slides/06_optimization_general/)
   7. [Deep learning: convolutional neural networks](https://data-psl.github.io/lectures2020/slides/07_deep_learning/)
   8. [Unsupervised learning](https://data-psl.github.io/lectures2020/slides/08_unsupervised_learning/)
+
+## Acknowledgements
+
+Some material of this course was borrowed and adapted:
+  * The slides from ["Deep learning: convolutional neural networks"](https://data-psl.github.io/lectures2020/slides/07_deep_learning/) are adapted from
+  Charles Ollion and Olivier Grisel's [advanced course on deep learning](!https://github.com/m2dsupsdlclass/lectures-labs) (released under the
+  [CC-By 4.0 license](https://creativecommons.org/licenses/by/4.0/legalcode)).
