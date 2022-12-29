@@ -29,60 +29,17 @@ class: center, middle
 Arthur Mensch 
 
 .affiliations[
-  ![École Normale Supérieure](images/logo_ens_psl_couleur.png)
+  ![DeepMind](images/dm.png)
 ]
 ---
 
 ## Machine learning crash course
 
-- Applications, history, limits
+- Applications, history, limits 9h-10h15
 
-- General concepts, goals and caveats
+- General concepts of supervised learning 10h30-12h
 
-- Mathematics:
-
-  - Statistics/ Linear algebra / Optimisation
-
-- Programming: 
-
-  - Numerics in Python / Scikit-learn / Deep learning
-
-- Data: SQL
-
-
----
-## Team
-
-Pierre Ablin (ENS, DMA)
-
-Mathieu Blondel (Google) 
-
-Pierre Senellart (ENS, DI)
-
-Arthur Mensch (ENS, DMA)
-
----
-## Course organisation
-
-### Online course 9h - 10h30, 11h - 12h30
-
-### Online lab 14h - 17h
-
-  - Based on Python notebooks (4 first days)
-  - Your own Python install, or Colab
-  - Teachers will be available on Discord
-
----
-## Plan of this lecture
-
-- What is machine learning ? A brief history
-
-- Broken locks and recent successes
-  - Computer vision 
-  - Text analysis 
-  - Speech analysis
-  - Game playing 
-  - Human behavior modelling
+- Lab: 3h of ML notebooks (using scikit-learn), when you have time
 
 ---
 
@@ -95,23 +52,6 @@ Arthur Mensch (ENS, DMA)
 
 - A century-old concept that I'll try to introduce
 
----
-
-## What is a machine ?
-
-.center[<img src="images/machine.png" width="85%" />]
-
-Standard *computer science* paradigm. Program a.k.a. algorithm
-
-<div class='column'><img src="images/ada_lovelace.jpg" width="100%" /> Ada Lovelace</div>
-
-<div class='column'><img src="images/von_neumann.gif" width="100%" />Von Neumann</div>
-
-<div class='column'><img src="images/alan_turing.jpg" width="100%" />Alan Turing</div>
-
-<div class='column'><img src="images/edsger_dijkstra.jpg" width="100%" />Edsger Dijsktra</div>
-
----
 
 ## What is an intelligent system ?
 
@@ -128,18 +68,24 @@ If the agent is a machine: *artificial intelligence* (term coined in 1956)
 
 .center[**Learning by trial and error**]
 
+.center[*Reinforcement learning*]
+
 ---
 
 ## How do we become intelligent ?
 .center[<img src="images/learning2.png" width="85%" />]
 
 .center[**Learning by organizing new knowledge**]
+
+.center[*Unsupervised learning*]
 ---
 
 ## How do we become intelligent ?
 .center[<img src="images/learning3.png" width="85%" />]
 
 .center[**Learning by comparison with a reference**]
+
+.center[*Supervised learning*]
 
 
 ---
@@ -248,12 +194,16 @@ Implementing a program that learns from supervision
 ## The new boom explained
 - Available datasets and growing data corpus
 
-- Money and people
+- Commodified developement / learning / inference
+
+- Resources and people
 
 .center[<img src="images/papers.jpg" width="45%" />
 <img src="images/revenues.jpg" width="45%" />]
 
-        - Privately funds from the GAFAM, public funding from Chinese governement
+        - Private fundings from the GAFAM, very large public funding from the Chinese governement
+
+        - Large increase of the community
 
 
 
@@ -299,7 +249,7 @@ Implementing a program that learns from supervision
 
 .credits[Slide courtesy of https://github.com/m2dsupsdlclass/lectures-labs]
 
----
+<!-- ---
 ## Image processing: the good
 .center[
 <img src="images/faceid.jpg" style="width: 720px;" />
@@ -315,7 +265,7 @@ Implementing a program that learns from supervision
 ## Image processing: the ugly
 .center[
 <img src="images/china.png" style="width: 720px;" />
-]
+] -->
 
 ---
 ## Text processing
@@ -398,17 +348,6 @@ Implementing a program that learns from supervision
 ]
 
 ---
-## ML for other sciences
-
-.center[
-<img src="images/latent.png" style="width: 720px;" />
-
-[Brain decoding, M et al. 2018]
-]
-
-
-
----
 ## Playing games
 
 .center[
@@ -425,38 +364,26 @@ Implementing a program that learns from supervision
 .center[
 <img src="images/behavior.png" style="width: 720px;" />]
 
----
+<!-- ---
 ## Influencing human behavior via profiling
 .center[
-<img src="images/criteo.png" style="width: 720px;" />]
-  
-.credits[Criteo website]
-
-
----
-## Influencing human behavior via profiling
-.center[
-<img src="images/cambridge_analytica.png" style="width: 720px;" />]
+<img src="images/cambridge_analytica.png" style="width: 720px;" />] -->
 
 ---
 ## Limit of machine learning
 
-- Model trained from data: as biased as the data itself
+- Model trained from data: as biased and unfair as the data itself
 
-    - facial recognition systems works less well on minorities
+  - facial recognition systems works less well on minorities
 
-    - CV rating systems learn socio-economic biases
+  - Resume rating systems learn socio-economic biases
 
 - Predictive model may fail on slightly perturbated input
-    - Non robust, hence non deployable
+  - Non robust, hence hardly deployable (e.g. autonomous cars)
 
-- As of today !
+- Deployment of a model in the wild that trains on interaction data
+  - Exploitable !
 
-
----
-## Next course
-
-- The principles of machine learning
 
 
 
